@@ -1,0 +1,90 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+
+provider: Frankfurter
+providerId: frankfurter
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+
+tags:
+  - Rate Limiting
+  - Currency Exchange
+  - Open Source
+  - Free
+  - Self-Hosted
+
+description: >-
+  Frankfurter publishes no hard rate-limit numbers. The hosted
+  api.frankfurter.dev endpoint enforces only soft, undocumented fair-use
+  throttling to protect the shared instance from abuse — there are no
+  monthly or daily caps, no per-key quotas (no keys exist), and no documented
+  per-second / per-minute ceilings. The documentation states: "There are no
+  quotas. Requests are rate-limited to prevent abuse, but there are no
+  monthly or daily caps." For high-volume use, the project recommends
+  caching, self-hosting via the lineofflight/frankfurter Docker image, or
+  consuming the upstream data sources directly. A self-hosted deployment has
+  no application-level limits — only what the operator's infrastructure
+  enforces.
+
+sources:
+  - https://frankfurter.dev/docs
+  - https://frankfurter.dev
+
+responseCodes:
+  throttled: 429
+
+limits:
+
+  - name: Public hosted endpoint — fair-use throttling
+    scope: IP
+    metric: varies
+    limit: 'soft / undocumented'
+    notes: >-
+      The provider does not publish concrete per-second, per-minute, or
+      per-hour numbers. The hosted instance applies abuse-prevention
+      throttling at an unspecified threshold. There are no monthly or daily
+      caps. No API key exists, so the limit cannot be scoped to a key.
+
+  - name: Self-hosted instance
+    scope: account
+    metric: varies
+    limit: 'operator-defined (no application-level limit)'
+    notes: >-
+      The Frankfurter codebase itself does not impose rate limits. A
+      self-hosted deployment is bounded only by the operator's chosen
+      infrastructure (reverse proxy, CDN, or application-layer middleware).
+
+policies:
+
+  - name: No authentication, no keys
+    description: >-
+      Frankfurter requires no account and issues no API keys, so rate limits
+      cannot be scoped per-customer. Anyone consuming the hosted endpoint at
+      a sustained high rate should either cache aggressively, run their own
+      instance, or fall back to the upstream central-bank feeds.
+
+  - name: Cache aggressively
+    description: >-
+      Rate data updates at most once per day per provider. Clients should
+      cache responses for the rest of the day (and use HTTP cache headers
+      returned by the API) rather than re-polling.
+
+  - name: Self-host for high volume
+    description: >-
+      The maintainers' explicit recommendation for high-volume consumers is
+      to run a private instance via the public Docker image. This removes
+      the shared-instance fair-use ceiling entirely.
+
+  - name: Fall back to upstream
+    description: >-
+      The dataset itself comes from public central-bank feeds (ECB, FED,
+      BOC, TCMB, BOJ, BCB, BOT, BAM, and others). Bulk consumers can pull
+      directly from those sources at no cost.
+
+  - name: Backoff on 429
+    description: >-
+      Clients receiving HTTP 429 should back off exponentially. No
+      Retry-After header is documented, so a conservative exponential
+      schedule (1s, 2s, 4s, 8s ...) is appropriate.

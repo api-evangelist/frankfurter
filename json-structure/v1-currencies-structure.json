@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-structure/v1-currencies-structure.json",
+  "name": "currencies",
+  "description": "currencies schema from Frankfurter API",
+  "type": "object",
+  "additionalProperties": {
+    "type": "string",
+    "description": "Full name of the currency",
+    "minLength": 1
+  },
+  "example": {},
+  "propertyNames": {
+    "$ref": "#/components/schemas/base"
+  },
+  "minProperties": 1
+}

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-amount-schema.json",
+  "title": "amount",
+  "description": "The amount to convert",
+  "type": "number",
+  "exclusiveMinimum": 0
+}

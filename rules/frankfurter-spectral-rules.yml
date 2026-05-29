@@ -1,0 +1,364 @@
+# Frankfurter Spectral Ruleset
+# Enforces the conventions used by the Frankfurter open-source currency
+# exchange API (https://frankfurter.dev). Patterns are derived from the
+# canonical v1 and v2 OpenAPI specs published by the upstream project at
+# https://github.com/lineofflight/frankfurter.
+
+rules:
+
+  # ── INFO / METADATA ──────────────────────────────────────────────────
+  info-title-frankfurter:
+    description: API title must start with "Frankfurter".
+    message: '{{property}} should start with "Frankfurter"'
+    severity: error
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: '^Frankfurter\b'
+
+  info-description-required:
+    description: Info description is required and must be meaningful.
+    severity: error
+    given: $.info
+    then:
+      - field: description
+        function: truthy
+      - field: description
+        function: length
+        functionOptions:
+          min: 40
+
+  info-version-required:
+    description: API version must be defined.
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  info-license-mit:
+    description: License must be defined and is expected to be MIT.
+    severity: warn
+    given: $.info.license
+    then:
+      - field: name
+        function: truthy
+      - field: name
+        function: pattern
+        functionOptions:
+          match: '^MIT'
+
+  info-contact-required:
+    description: Contact url must be defined.
+    severity: warn
+    given: $.info.contact
+    then:
+      field: url
+      function: truthy
+
+  # ── OPENAPI VERSION ─────────────────────────────────────────────────
+  openapi-version-3-1:
+    description: OpenAPI version must be 3.1.x.
+    severity: error
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: '^3\.1\.'
+
+  # ── SERVERS ──────────────────────────────────────────────────────────
+  servers-defined:
+    description: At least one server must be defined.
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  servers-https-only:
+    description: Server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  servers-frankfurter-host:
+    description: Server URLs should target the api.frankfurter.dev host (or self-host equivalent).
+    severity: info
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: 'frankfurter'
+
+  servers-versioned:
+    description: Server URL should include a /v1 or /v2 version segment.
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '/v[12](/|$)'
+
+  # ── PATHS — NAMING CONVENTIONS ──────────────────────────────────────
+  paths-no-trailing-slash:
+    description: Paths must not end with a trailing slash.
+    severity: error
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        notMatch: '/$'
+
+  paths-no-query-string:
+    description: Paths must not contain query strings.
+    severity: error
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        notMatch: '\?'
+
+  paths-kebab-or-template:
+    description: Path segments should be kebab-case or templated parameters.
+    message: 'Path segment "{{error}}" should be kebab-case or a parameter template.'
+    severity: warn
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^(/[a-z0-9\-]+|/\{[A-Za-z_][A-Za-z0-9_]*\}|/\{[A-Za-z_][A-Za-z0-9_]*\}\.\.|/\{[A-Za-z_][A-Za-z0-9_]*\}\.\.\{[A-Za-z_][A-Za-z0-9_]*\})+$'
+
+  # ── OPERATIONS ───────────────────────────────────────────────────────
+  operation-summary-required:
+    description: Every operation must have a summary.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+
+  operation-description-required:
+    description: Every operation must have a description.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+
+  operation-summary-frankfurter-prefix:
+    description: Operation summaries should start with "Frankfurter".
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^Frankfurter\b'
+
+  operation-id-camel-case:
+    description: operationId must be camelCase when present (v2 convention).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]+$'
+
+  operation-tags-required:
+    description: Every operation must declare at least one tag.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+
+  operation-microcks-extension:
+    description: Operation should declare an x-microcks-operation block for mock-server compatibility.
+    severity: info
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: x-microcks-operation
+      function: truthy
+
+  # ── TAGS ─────────────────────────────────────────────────────────────
+  tags-global-defined:
+    description: Top-level tags array must be defined and non-empty.
+    severity: warn
+    given: $
+    then:
+      field: tags
+      function: truthy
+
+  tags-have-description:
+    description: Each global tag should declare a description.
+    severity: info
+    given: $.tags[*]
+    then:
+      field: description
+      function: truthy
+
+  # ── PARAMETERS ───────────────────────────────────────────────────────
+  parameter-description-required:
+    description: Every parameter must have a description.
+    severity: warn
+    given: '$.paths[*][*].parameters[*]'
+    then:
+      field: description
+      function: truthy
+
+  parameter-snake-case:
+    description: Parameter names should be snake_case (matches Frankfurter convention — base, quotes, from, to, start_date, end_date, providers).
+    severity: warn
+    given: '$.paths[*][*].parameters[*].name'
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-z0-9_]*$'
+
+  parameter-schema-required:
+    description: Every parameter must declare a schema with a type.
+    severity: error
+    given: '$.paths[*][*].parameters[*]'
+    then:
+      field: schema
+      function: truthy
+
+  # ── REQUEST BODIES ───────────────────────────────────────────────────
+  # Frankfurter has no request bodies (read-only API). Enforce that.
+  no-request-bodies:
+    description: Frankfurter API operations must not declare a requestBody (the API is read-only over GET).
+    severity: error
+    given: $.paths[*][get,delete]
+    then:
+      field: requestBody
+      function: falsy
+
+  # ── RESPONSES ────────────────────────────────────────────────────────
+  response-200-required:
+    description: Every GET operation must define a 200 response.
+    severity: error
+    given: $.paths[*].get.responses
+    then:
+      field: '200'
+      function: truthy
+
+  response-404-defined:
+    description: GET operations should declare a 404 response for missing data.
+    severity: warn
+    given: $.paths[*].get.responses
+    then:
+      field: '404'
+      function: truthy
+
+  response-content-json:
+    description: 2xx responses should use application/json (or application/x-ndjson for streaming).
+    severity: warn
+    given: $.paths[*][*].responses[?(@property.match(/^2/))].content
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+            - required: ['application/json']
+            - required: ['application/x-ndjson']
+            - required: ['application/json', 'application/x-ndjson']
+
+  response-description-required:
+    description: Every response must have a description.
+    severity: error
+    given: '$.paths[*][*].responses[*]'
+    then:
+      field: description
+      function: truthy
+
+  # ── SCHEMAS — PROPERTY NAMING ───────────────────────────────────────
+  schema-property-snake-case:
+    description: Schema property names should be snake_case (matches API JSON output — iso_code, iso_numeric, start_date, end_date, pivot_currency, etc.).
+    severity: warn
+    given: '$.components.schemas[*].properties'
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-z0-9_]*$'
+
+  schema-property-description:
+    description: Top-level schema properties should have descriptions.
+    severity: info
+    given: '$.components.schemas[*].properties[*]'
+    then:
+      field: description
+      function: truthy
+
+  schema-type-defined:
+    description: Component schemas must declare a type (or use composition keywords).
+    severity: warn
+    given: '$.components.schemas[*]'
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+            - required: ['type']
+            - required: ['allOf']
+            - required: ['oneOf']
+            - required: ['anyOf']
+            - required: ['$ref']
+
+  # ── SECURITY ─────────────────────────────────────────────────────────
+  # Frankfurter is public, requires no auth. Enforce no security schemes.
+  no-security-schemes:
+    description: Frankfurter is a public open API — no security schemes should be declared.
+    severity: warn
+    given: $.components.securitySchemes
+    then:
+      function: falsy
+
+  no-global-security:
+    description: Frankfurter operations should not require security.
+    severity: warn
+    given: $
+    then:
+      field: security
+      function: falsy
+
+  # ── HTTP METHOD CONVENTIONS ─────────────────────────────────────────
+  only-get-methods:
+    description: Frankfurter exposes only GET endpoints — no write methods are permitted.
+    severity: error
+    given: $.paths[*]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          not:
+            anyOf:
+              - required: ['post']
+              - required: ['put']
+              - required: ['patch']
+              - required: ['delete']
+
+  # ── GENERAL QUALITY ─────────────────────────────────────────────────
+  no-empty-descriptions:
+    description: Descriptions must not be empty.
+    severity: warn
+    given: $..description
+    then:
+      function: length
+      functionOptions:
+        min: 1
+
+  examples-encouraged:
+    description: Schemas should provide examples to aid documentation and mock generation.
+    severity: info
+    given: '$.components.schemas[*]'
+    then:
+      field: example
+      function: truthy

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v2-currency-detail-schema.json",
+  "title": "CurrencyDetail",
+  "description": "CurrencyDetail schema from Frankfurter API",
+  "type": "object",
+  "properties": {
+    "iso_code": {
+      "type": "string",
+      "description": "ISO 4217 currency code"
+    },
+    "iso_numeric": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "ISO 4217 numeric code"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full currency name"
+    },
+    "symbol": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Currency symbol"
+    },
+    "providers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Provider keys that publish this currency"
+    },
+    "peg": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number"
+        },
+        "authority": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "description": "Peg metadata, present only for pegged currencies"
+    }
+  },
+  "required": [
+    "iso_code",
+    "name"
+  ]
+}

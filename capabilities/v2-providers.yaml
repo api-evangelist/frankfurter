@@ -1,0 +1,65 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Frankfurter API — Providers
+  description: 'Frankfurter API — Providers. 1 operation(s). Lead operation: Frankfurter Get Available Data Providers. Self-contained Naftiko capability covering one Frankfurter business surface.'
+  tags:
+    - Frankfurter
+    - Currency Exchange
+    - Providers
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds: []
+capability:
+  consumes:
+    - type: http
+      namespace: v2-providers
+      baseUri: https://api.frankfurter.dev/v2
+      description: Frankfurter API — Providers business capability. Self-contained, no shared references. Public, no authentication required.
+      resources:
+        - name: providers
+          path: /providers
+          operations:
+            - name: getProviders
+              method: GET
+              description: Frankfurter Get Available Data Providers
+              inputParameters: []
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+  exposes:
+    - type: rest
+      namespace: v2-providers-rest
+      port: 8080
+      description: REST adapter for Frankfurter API — Providers. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+      resources:
+        - path: /v1/providers
+          name: v1-providers
+          description: REST surface for Frankfurter Get Available Data Providers.
+          operations:
+            - method: GET
+              name: getProviders
+              description: Frankfurter Get Available Data Providers
+              call: v2-providers.getProviders
+              with: {}
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: v2-providers-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for Frankfurter API — Providers. One verb-noun tool per consumed operation, routed inline through this capability's consumes block.
+      tools:
+        - name: get-available-data-providers
+          description: Frankfurter Get Available Data Providers
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: v2-providers.getProviders
+          with: {}
+          outputParameters:
+            - type: object
+              mapping: $.

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-structure/v1-rates-by-date-structure.json",
+  "name": "ratesByDate",
+  "description": "Mapping of date \u2192 rates object",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/components/schemas/rates"
+  },
+  "example": {},
+  "propertyNames": {
+    "$ref": "#/components/schemas/date"
+  },
+  "minProperties": 1
+}

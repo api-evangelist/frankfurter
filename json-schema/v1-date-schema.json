@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-date-schema.json",
+  "title": "date",
+  "description": "Date in YYYY-MM-DD format, all dates stored in UTC.",
+  "type": "string",
+  "format": "date",
+  "example": "2024-01-15"
+}

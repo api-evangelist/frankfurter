@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-structure/v1-base-in-structure.json",
+  "name": "baseIn",
+  "description": "baseIn schema from Frankfurter API",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/base"
+    }
+  ],
+  "default": "EUR"
+}

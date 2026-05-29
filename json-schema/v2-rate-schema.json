@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v2-rate-schema.json",
+  "title": "Rate",
+  "description": "Rate schema from Frankfurter API",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date of the rate"
+    },
+    "base": {
+      "type": "string",
+      "description": "Base currency code"
+    },
+    "quote": {
+      "type": "string",
+      "description": "Quote currency code"
+    },
+    "rate": {
+      "type": "number",
+      "description": "Exchange rate value",
+      "exclusiveMinimum": 0
+    },
+    "providers": {
+      "type": "array",
+      "description": "Per-provider rates for this pair. Present only when `expand=providers` is set. Each entry has the provider's published rate (rebased to the row's base). Entries with `excluded: true` did not contribute to the blended `rate` \u2014 either flagged as outliers by the consensus filter, or overridden by a currency peg. Omitted on synthesized peg rows where no provider published the quote.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Provider key"
+          },
+          "rate": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Provider's rate, rebased to the row's base"
+          },
+          "excluded": {
+            "type": "boolean",
+            "description": "Present and true when this entry did not contribute to the blended rate"
+          }
+        },
+        "required": [
+          "key",
+          "rate"
+        ]
+      }
+    }
+  },
+  "required": [
+    "date",
+    "base",
+    "quote",
+    "rate"
+  ]
+}

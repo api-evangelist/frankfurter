@@ -1,0 +1,65 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Frankfurter API — metadata
+  description: 'Frankfurter API — metadata. 1 operation(s). Lead operation: Frankfurter Get Available Currencies. Self-contained Naftiko capability covering one Frankfurter business surface.'
+  tags:
+    - Frankfurter
+    - Currency Exchange
+    - Metadata
+  created: '2026-05-29'
+  modified: '2026-05-29'
+binds: []
+capability:
+  consumes:
+    - type: http
+      namespace: v1-metadata
+      baseUri: https://api.frankfurter.dev/v1
+      description: Frankfurter API — metadata business capability. Self-contained, no shared references. Public, no authentication required.
+      resources:
+        - name: currencies
+          path: /currencies
+          operations:
+            - name: get-available-currencies
+              method: GET
+              description: Frankfurter Get Available Currencies
+              inputParameters: []
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+  exposes:
+    - type: rest
+      namespace: v1-metadata-rest
+      port: 8080
+      description: REST adapter for Frankfurter API — metadata. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+      resources:
+        - path: /v1/currencies
+          name: v1-currencies
+          description: REST surface for Frankfurter Get Available Currencies.
+          operations:
+            - method: GET
+              name: get-available-currencies
+              description: Frankfurter Get Available Currencies
+              call: v1-metadata.get-available-currencies
+              with: {}
+              outputParameters:
+                - type: object
+                  mapping: $.
+    - type: mcp
+      namespace: v1-metadata-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter for Frankfurter API — metadata. One verb-noun tool per consumed operation, routed inline through this capability's consumes block.
+      tools:
+        - name: get-available-currencies
+          description: Frankfurter Get Available Currencies
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: v1-metadata.get-available-currencies
+          with: {}
+          outputParameters:
+            - type: object
+              mapping: $.

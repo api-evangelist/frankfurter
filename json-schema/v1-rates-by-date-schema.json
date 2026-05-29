@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-rates-by-date-schema.json",
+  "title": "ratesByDate",
+  "description": "Mapping of date \u2192 rates object",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/components/schemas/rates"
+  },
+  "example": {
+    "1999-01-04": {
+      "AUD": 1.91
+    },
+    "1999-01-05": {
+      "AUD": 1.8944
+    },
+    "1999-01-06": {
+      "AUD": 1.882
+    }
+  },
+  "propertyNames": {
+    "$ref": "#/components/schemas/date"
+  },
+  "minProperties": 1
+}

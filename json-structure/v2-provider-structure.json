@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-structure/v2-provider-structure.json",
+  "name": "Provider",
+  "description": "Provider schema from Frankfurter API",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Provider identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full provider name"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "rate_type": {
+      "type": "string",
+      "description": "Official rate type as used by the source"
+    },
+    "pivot_currency": {
+      "type": "string",
+      "description": "Base currency for published rates"
+    },
+    "data_url": {
+      "type": "uri",
+      "description": "Link to the data source"
+    },
+    "terms_url": {
+      "type": "uri",
+      "description": "Link to terms of use"
+    },
+    "start_date": {
+      "type": "date",
+      "description": "Earliest available date"
+    },
+    "end_date": {
+      "type": "date",
+      "description": "Latest available date"
+    },
+    "publishes_missed": {
+      "type": "int32",
+      "minimum": 0,
+      "description": "Number of expected publishes missed since end_date. For daily providers, counts scheduled publish days strictly between end_date and today. For weekly and monthly providers, counts ISO weeks or calendar months between the latest imported bucket and the bucket whose publish window has already started. Null when the provider has no scheduled cadence or no imported data."
+    },
+    "currencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Currency codes covered by this provider"
+    }
+  },
+  "required": [
+    "key",
+    "name",
+    "currencies"
+  ]
+}

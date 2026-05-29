@@ -1,32 +1,287 @@
 aid: frankfurter
 name: Frankfurter
-description: "Exchange rates, currency conversion and time series"
-url: https://www.frankfurter.app/docs
+description: >-
+  Frankfurter is an open-source (MIT) currency exchange rates API that blends
+  foreign-exchange reference rates published by 50+ central banks and
+  monetary authorities. It hosts a free, no-key public endpoint at
+  api.frankfurter.dev (current v2 and frozen v1) and ships as a Docker image
+  for unlimited self-hosting. Historical data extends back to 1948 and
+  covers 201 currencies; the API serves JSON, NDJSON, and CSV.
+url: https://frankfurter.dev
 specificationVersion: '0.20'
 created: '2026-05-28'
-modified: '2026-05-28'
+modified: '2026-05-29'
 x-source: public-apis/public-apis
+x-type: opensource
 x-category: "Currency Exchange"
-x-tier: 3
-x-tier-reason: bulk-registered-from-public-apis
+x-tier: 2
+x-tier-reason: "Open-source, MIT-licensed, self-hostable; reconciled against upstream OpenAPI specs and lineofflight GitHub org."
+
 tags:
   - Currency Exchange
+  - Foreign Exchange
+  - FX
+  - Open Source
+  - MIT
+  - Self-Hosted
   - Public APIs
+
 apis:
-  - name: Frankfurter
-    description: "Exchange rates, currency conversion and time series"
-    humanURL: https://www.frankfurter.app/docs
-    baseURL: https://www.frankfurter.app/docs
+  - name: Frankfurter API v2
+    description: >-
+      Current Frankfurter API. Blended exchange rates across multiple
+      institutional providers, one row per currency pair, with optional
+      per-provider expansion, week/month downsampling, and NDJSON streaming.
+    humanURL: https://frankfurter.dev/docs
+    baseURL: https://api.frankfurter.dev/v2
     tags:
       - Currency Exchange
+      - Rates
+      - Currencies
+      - Providers
     properties:
       - type: Documentation
-        url: https://www.frankfurter.app/docs
+        url: https://frankfurter.dev/docs
+      - type: OpenAPI
+        url: openapi/frankfurter-v2-openapi.yml
+      - type: OpenAPI
+        title: Upstream OpenAPI
+        url: https://api.frankfurter.dev/v2/openapi.json
+      - type: NaftikoCapability
+        url: capabilities/v2-rates.yaml
+      - type: NaftikoCapability
+        url: capabilities/v2-currencies.yaml
+      - type: NaftikoCapability
+        url: capabilities/v2-providers.yaml
+      - type: JSONSchema
+        url: json-schema/v2-rate-schema.json
+      - type: JSONSchema
+        url: json-schema/v2-currency-schema.json
+      - type: JSONSchema
+        url: json-schema/v2-currency-detail-schema.json
+      - type: JSONSchema
+        url: json-schema/v2-provider-schema.json
+      - type: JSONStructure
+        url: json-structure/v2-rate-structure.json
+      - type: JSONStructure
+        url: json-structure/v2-currency-structure.json
+      - type: JSONStructure
+        url: json-structure/v2-currency-detail-structure.json
+      - type: JSONStructure
+        url: json-structure/v2-provider-structure.json
+      - type: JSON-LD
+        url: json-ld/frankfurter-v2-context.jsonld
+      - type: Example
+        url: examples/v2-rate-example.json
+      - type: Example
+        url: examples/v2-currency-example.json
+      - type: Example
+        url: examples/v2-currency-detail-example.json
+      - type: Example
+        url: examples/v2-provider-example.json
+
+  - name: Frankfurter API v1
+    description: >-
+      Frozen v1 Frankfurter API. ECB-style reference rates with single-base
+      aggregate response shape (rates keyed by quote currency). Maintained
+      for backward compatibility; new integrations should use v2.
+    humanURL: https://frankfurter.dev/docs
+    baseURL: https://api.frankfurter.dev/v1
+    tags:
+      - Currency Exchange
+      - Current Rates
+      - Historical Rates
+      - Metadata
+    properties:
+      - type: Documentation
+        url: https://frankfurter.dev/docs
+      - type: OpenAPI
+        url: openapi/frankfurter-v1-openapi.yml
+      - type: OpenAPI
+        title: Upstream OpenAPI
+        url: https://api.frankfurter.dev/v1/openapi.json
+      - type: NaftikoCapability
+        url: capabilities/v1-current-rates.yaml
+      - type: NaftikoCapability
+        url: capabilities/v1-historical-rates.yaml
+      - type: NaftikoCapability
+        url: capabilities/v1-metadata.yaml
+      - type: JSONSchema
+        url: json-schema/v1-rates-on-date-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-rates-by-date-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-rates-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-currencies-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-amount-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-base-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-base-in-schema.json
+      - type: JSONSchema
+        url: json-schema/v1-date-schema.json
+      - type: JSONStructure
+        url: json-structure/v1-rates-on-date-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-rates-by-date-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-rates-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-currencies-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-amount-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-base-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-base-in-structure.json
+      - type: JSONStructure
+        url: json-structure/v1-date-structure.json
+      - type: JSON-LD
+        url: json-ld/frankfurter-v1-context.jsonld
+      - type: Example
+        url: examples/v1-rates-on-date-example.json
+      - type: Example
+        url: examples/v1-rates-by-date-example.json
+      - type: Example
+        url: examples/v1-currencies-example.json
+
 common:
+
   - type: Website
-    url: https://www.frankfurter.app/docs
+    url: https://frankfurter.dev
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: GitHubOrganization
+    url: https://github.com/lineofflight
+  - type: GitHubRepository
+    title: Frankfurter (canonical)
+    url: https://github.com/lineofflight/frankfurter
+  - type: GitHubRepository
+    title: Frankfurter MCP Server
+    url: https://github.com/lineofflight/frankfurter-mcp
+  - type: License
+    title: MIT License
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  - type: ContainerImage
+    title: Docker (Frankfurter)
+    url: https://hub.docker.com/r/lineofflight/frankfurter
+  - type: ContainerImage
+    title: Docker (Frankfurter MCP)
+    url: https://ghcr.io/lineofflight/frankfurter-mcp
+  - type: Tools
+    title: MCP Server
+    url: https://github.com/lineofflight/frankfurter-mcp
+  - type: Tools
+    title: Hosted MCP Endpoint
+    url: https://mcp.frankfurter.dev/
+  - type: Tools
+    title: MCP Registry Listing
+    url: https://github.com/modelcontextprotocol/registry
   - type: PublicAPIsListing
     url: https://github.com/public-apis/public-apis
+  - type: Issues
+    url: https://github.com/lineofflight/frankfurter/issues
+  - type: Discussions
+    url: https://github.com/lineofflight/frankfurter/discussions
+
+  - type: SpectralRules
+    url: rules/frankfurter-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/frankfurter-vocabulary.yml
+  - type: Plans
+    url: plans/frankfurter-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/frankfurter-rate-limits.yml
+
+  - type: Features
+    data:
+      - name: Blended Reference Rates
+        description: >-
+          Combines daily FX rates from 50+ central banks and monetary
+          authorities into a consensus-filtered, outlier-rejecting blend.
+      - name: Multi-Format Output
+        description: JSON, NDJSON (streamed), and CSV from the same endpoint.
+      - name: Historical Time Series
+        description: Daily rates back to 1948 with optional week/month downsampling.
+      - name: 201 Currencies
+        description: Active and legacy currency coverage with ISO 4217 metadata.
+      - name: Per-Provider Expansion
+        description: >-
+          `expand=providers` exposes each provider's individual quote so
+          callers can audit the blend, with `excluded: true` flags on
+          outliers and peg overrides.
+      - name: No Authentication
+        description: No keys, no accounts, no monthly or daily caps.
+      - name: Self-Hostable
+        description: Single Docker image with optional SQLite volume mount.
+      - name: Free Upstream Provider Keys
+        description: >-
+          Optional, no-cost provider keys for Bank Al-Maghrib, Banco de
+          México, Banco Central de Chile, Bank of Thailand, US Federal
+          Reserve, and the Turkish Central Bank widen self-hosted coverage.
+      - name: Open CORS
+        description: GET and OPTIONS allowed from any origin — direct browser use.
+      - name: Open Source (MIT)
+        description: Full source on GitHub; community contributions and fork-friendly.
+
+  - type: UseCases
+    data:
+      - name: Treasury and Payments Pricing
+        description: Embed blended FX rates into invoicing, payouts, and conversion.
+      - name: E-commerce Storefront Localization
+        description: Convert displayed prices into the visitor's currency on page load.
+      - name: Reporting and Analytics
+        description: Backfill historical FX into BI dashboards and finance reports.
+      - name: Reference Data Maintenance
+        description: Sync ISO 4217 currency tables and provider metadata into ERPs.
+      - name: AI Assistant Tooling
+        description: >-
+          Equip Claude and other MCP-capable agents with the official
+          Frankfurter MCP server (get_rates, convert, list_currencies,
+          list_providers).
+      - name: Private FX Service
+        description: Self-host inside a VPC for compliance-sensitive workloads.
+      - name: Academic and Research
+        description: Long historical series for FX econometric studies.
+
+  - type: Integrations
+    data:
+      - name: European Central Bank
+        description: Primary upstream provider (ECB reference rates).
+      - name: US Federal Reserve
+        description: Optional upstream provider via free FED API key.
+      - name: Bank of Canada
+        description: Upstream provider (BOC) included in the blend.
+      - name: Banco Central do Brasil
+        description: Upstream provider (BCB).
+      - name: Turkish Central Bank
+        description: Optional upstream provider via free TCMB key.
+      - name: Bank of Thailand
+        description: Optional upstream provider via free BOT key.
+      - name: Banco Central de Chile
+        description: Optional upstream provider via free BCCh key.
+      - name: Banco de México
+        description: Optional upstream provider via free Banxico key.
+      - name: Bank Al-Maghrib (Morocco)
+        description: Optional upstream provider via free BAM key.
+      - name: Model Context Protocol
+        description: Official MCP server (lineofflight/frankfurter-mcp) registered at the MCP registry.
+      - name: Docker Hub / GHCR
+        description: Container distribution for self-hosting.
+      - name: GitHub Discussions
+        description: "Community 'Show and Tell' for libraries and tools built on Frankfurter."
+
+  - type: Solutions
+    data:
+      - name: Public Hosted (Free)
+        description: api.frankfurter.dev — no key, soft fair-use limits, ideal for prototypes and low-volume production.
+      - name: Self-Hosted FOSS
+        description: Run lineofflight/frankfurter via Docker; no application-level rate limit.
+      - name: MCP Tooling
+        description: Drop the Frankfurter MCP server into any Claude / agent stack for natural-language FX access.
+
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

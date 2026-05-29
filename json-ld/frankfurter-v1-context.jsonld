@@ -1,0 +1,28 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "frankfurter": "https://frankfurter.dev/schema/v1/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ratesOnDate": "frankfurter:ratesOnDate",
+    "ratesByDate": "frankfurter:ratesByDate",
+    "rates": {
+      "@id": "frankfurter:rates",
+      "@type": "xsd:string"
+    },
+    "currencies": "frankfurter:currencies",
+    "amount": {
+      "@id": "frankfurter:amount",
+      "@type": "xsd:string"
+    },
+    "base": {
+      "@id": "frankfurter:base",
+      "@type": "xsd:string"
+    },
+    "date": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:string"
+    }
+  }
+}

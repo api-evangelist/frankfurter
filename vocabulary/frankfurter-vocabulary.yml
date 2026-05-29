@@ -1,0 +1,183 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Frankfurter"
+  description: "Vocabulary mapping operational endpoints (OpenAPI) and capability surfaces (Naftiko) for the Frankfurter open-source currency exchange API. Covers both the frozen v1 (ECB-only, single-base aggregate response shape) and the current v2 (multi-provider blended rates, row-per-pair response shape) surfaces."
+  created: "2026-05-29"
+  modified: "2026-05-29"
+
+operational:
+
+  apis:
+    - name: "Frankfurter API v2"
+      namespace: v2
+      version: "2.1.1"
+      baseUrl: "https://api.frankfurter.dev/v2"
+      status: "current"
+      tags: [Rates, Currencies, Providers]
+    - name: "Frankfurter API v1"
+      namespace: v1
+      version: "1.0.0"
+      baseUrl: "https://api.frankfurter.dev/v1"
+      status: "frozen"
+      tags: [Current Rates, Historical Rates, Metadata]
+
+  resources:
+    - name: rates
+      apis: [v2, v1]
+      description: "Blended exchange rates returned as a row per currency pair (v2) or a date-keyed map (v1)."
+      actions: [list, get-by-date, get-time-series, get-pair]
+    - name: currencies
+      apis: [v2, v1]
+      description: "Currency reference data — ISO 4217 code, name, symbol, lifecycle dates."
+      actions: [list, get]
+    - name: providers
+      apis: [v2]
+      description: "Institutional data providers (central banks and FX authorities) whose rates feed the blend."
+      actions: [list]
+
+  actions:
+    - name: list
+      httpMethod: GET
+      pattern: read
+    - name: get-by-date
+      httpMethod: GET
+      pattern: read
+    - name: get-time-series
+      httpMethod: GET
+      pattern: read
+    - name: get-pair
+      httpMethod: GET
+      pattern: read
+    - name: get
+      httpMethod: GET
+      pattern: read
+
+  schemas:
+    core:
+      - name: Rate
+        api: v2
+        keyProperties: [date, base, quote, rate, providers]
+      - name: Currency
+        api: v2
+        keyProperties: [iso_code, iso_numeric, name, symbol, start_date, end_date]
+      - name: CurrencyDetail
+        api: v2
+        keyProperties: [iso_code, name, providers, peg]
+      - name: Provider
+        api: v2
+        keyProperties: [key, name, country_code, pivot_currency, currencies, publishes_missed]
+    legacy:
+      - name: ratesOnDate
+        api: v1
+        keyProperties: [amount, base, date, rates]
+      - name: ratesByDate
+        api: v1
+        keyProperties: [propertyNames=date]
+
+  parameters:
+    selectors:
+      - {name: base, apis: [v1, v2], description: "Base currency (default EUR)."}
+      - {name: quotes, apis: [v2], description: "Comma-separated quote currency list (v2)."}
+      - {name: symbols, apis: [v1], description: "Comma-separated quote currency list (v1 name)."}
+      - {name: providers, apis: [v2], description: "Restrict the blend to a subset of data providers."}
+    temporal:
+      - {name: date, apis: [v2], description: "Snapshot date (YYYY-MM-DD)."}
+      - {name: from, apis: [v2], description: "Time-series start date."}
+      - {name: to, apis: [v2], description: "Time-series end date."}
+      - {name: start_date, apis: [v1], description: "Period start (path-templated)."}
+      - {name: end_date, apis: [v1], description: "Period end (path-templated)."}
+      - {name: group, apis: [v2], description: "Downsample by week or month."}
+    introspection:
+      - {name: expand, apis: [v2], description: "Currently `providers` — expose per-provider sub-rates."}
+      - {name: scope, apis: [v2], description: "Set to `all` to include legacy currencies."}
+
+  enums:
+    grouping: [week, month]
+    expansion: [providers]
+    currencyScope: [all]
+
+  authentication:
+    type: none
+    description: "No API key required. CORS is open for GET/OPTIONS. No accounts, tokens, or quota tiers."
+
+capability:
+  workflows:
+    - file: capabilities/v2-rates.yaml
+      apis: [v2]
+      tag: Rates
+      tools: 2
+      persona: "Treasury / FX integrator"
+    - file: capabilities/v2-currencies.yaml
+      apis: [v2]
+      tag: Currencies
+      tools: 2
+      persona: "Reference-data engineer"
+    - file: capabilities/v2-providers.yaml
+      apis: [v2]
+      tag: Providers
+      tools: 1
+      persona: "Data-quality analyst"
+    - file: capabilities/v1-current-rates.yaml
+      apis: [v1]
+      tag: Current Rates
+      tools: 1
+      persona: "Legacy v1 consumer"
+    - file: capabilities/v1-historical-rates.yaml
+      apis: [v1]
+      tag: Historical Rates
+      tools: 3
+      persona: "Legacy v1 historical analytics"
+    - file: capabilities/v1-metadata.yaml
+      apis: [v1]
+      tag: Metadata
+      tools: 1
+      persona: "Legacy v1 reference-data engineer"
+
+  personas:
+    - id: treasury-fx-integrator
+      name: "Treasury / FX Integrator"
+      description: "Embeds blended FX rates into pricing, conversion, and reporting workflows."
+      workflows: [v2-rates]
+    - id: reference-data-engineer
+      name: "Reference-Data Engineer"
+      description: "Maintains currency reference tables and ISO 4217 mappings."
+      workflows: [v2-currencies, v1-metadata]
+    - id: data-quality-analyst
+      name: "Data-Quality Analyst"
+      description: "Reviews provider coverage, scheduled-publish gaps, and rate divergence."
+      workflows: [v2-providers]
+    - id: legacy-v1-consumer
+      name: "Legacy v1 Consumer"
+      description: "Existing integration on the frozen v1 surface (ECB-only, single-base aggregate)."
+      workflows: [v1-current-rates, v1-historical-rates, v1-metadata]
+
+  domains:
+    - name: Currency Exchange
+      resources: [rates, currencies]
+    - name: Provider Governance
+      resources: [providers]
+
+  namespaces:
+    consumed: [v2-rates, v2-currencies, v2-providers, v1-current-rates, v1-historical-rates, v1-metadata]
+    rest:     [v2-rates-rest, v2-currencies-rest, v2-providers-rest, v1-current-rates-rest, v1-historical-rates-rest, v1-metadata-rest]
+    mcp:      [v2-rates-mcp, v2-currencies-mcp, v2-providers-mcp, v1-current-rates-mcp, v1-historical-rates-mcp, v1-metadata-mcp]
+
+  binds: []
+
+crossReference:
+  - resource: rates
+    apis: [v2, v1]
+    operations: [getRates, getRate, latest, by-date, time-series]
+    workflows: [v2-rates, v1-current-rates, v1-historical-rates]
+    personas: [treasury-fx-integrator, legacy-v1-consumer]
+  - resource: currencies
+    apis: [v2, v1]
+    operations: [getCurrencies, getCurrency, v1-currencies]
+    workflows: [v2-currencies, v1-metadata]
+    personas: [reference-data-engineer]
+  - resource: providers
+    apis: [v2]
+    operations: [getProviders]
+    workflows: [v2-providers]
+    personas: [data-quality-analyst]

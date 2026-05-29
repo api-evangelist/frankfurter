@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-structure/v1-rates-structure.json",
+  "name": "rates",
+  "description": "Exchange rates keyed by currency code",
+  "type": "object",
+  "additionalProperties": {
+    "type": "double",
+    "exclusiveMinimum": 0
+  },
+  "example": {},
+  "propertyNames": {
+    "$ref": "#/components/schemas/base"
+  },
+  "minProperties": 1
+}

@@ -1,0 +1,18 @@
+{
+  "date": "2026-03-25",
+  "base": "INR",
+  "quote": "CNY",
+  "rate": 0.3182,
+  "providers": [
+    {
+      "key": "BOE",
+      "rate": 0.8384,
+      "excluded": true
+    },
+    {
+      "key": "BCB",
+      "rate": 1.4741,
+      "excluded": true
+    }
+  ]
+}

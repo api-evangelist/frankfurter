@@ -1,0 +1,16 @@
+{
+  "iso_code": "INR",
+  "iso_numeric": "840",
+  "name": "United States Dollar",
+  "symbol": "\u20ac",
+  "providers": [
+    "SNB",
+    "ECB"
+  ],
+  "peg": {
+    "base": "AUD",
+    "rate": 0.2408,
+    "authority": "HKMA",
+    "source": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+  }
+}

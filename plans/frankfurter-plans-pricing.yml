@@ -1,0 +1,137 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+
+provider: Frankfurter
+providerId: frankfurter
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+
+tags:
+  - Currency Exchange
+  - Open Source
+  - Free
+  - Self-Hosted
+  - MIT License
+
+description: >-
+  Frankfurter is a fully free, MIT-licensed open-source currency exchange API.
+  The hosted public endpoint at api.frankfurter.dev requires no API key, no
+  account, and has no monthly or daily caps. There are no tiers and no paid
+  upgrades. The same code is distributable as a Docker image
+  (lineofflight/frankfurter) for unlimited self-hosting at zero license cost;
+  the only costs for a self-hosted deployment are infrastructure (compute,
+  storage) and the operator's own time to register the optional, free
+  upstream provider keys (Bank Al-Maghrib, Banco de México, Banco Central de
+  Chile, Bank of Thailand, US Federal Reserve, Turkish Central Bank).
+
+sources:
+  - https://frankfurter.dev
+  - https://frankfurter.dev/docs
+  - https://github.com/lineofflight/frankfurter
+  - https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+
+plans:
+
+  - id: frankfurter-public-free
+    name: Public Hosted (Free)
+    type: freemium
+    description: >-
+      The public api.frankfurter.dev endpoint. No registration, no API key,
+      no monthly or daily caps. Soft fair-use rate-limiting applies to
+      protect the shared instance from abuse.
+    entries:
+      - label: API requests
+        name: api_requests
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.00'
+        userMultiplied: false
+      - label: API key
+        name: api_key
+        type: flat
+        metric: account
+        limit: 0
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 'not required'
+        userMultiplied: false
+      - label: Fair-use rate limiting
+        name: fair_use_rate_limit
+        type: quota
+        metric: varies
+        limit: 'soft / undocumented'
+        timeFrame: second
+        geo: global
+        unit: 1
+        price: '$0.00'
+        userMultiplied: false
+    elements:
+      - name: Latest blended rates across 50+ central banks
+      - name: Historical rates back to 1948
+      - name: Time-series queries with optional week/month downsampling
+      - name: 201 currencies
+      - name: JSON, NDJSON, and CSV output formats
+      - name: Open CORS for browser access
+
+  - id: frankfurter-self-hosted-foss
+    name: Self-Hosted (FOSS)
+    type: subscription
+    description: >-
+      Run your own Frankfurter instance from the public Docker image. MIT
+      license — no license fee, no per-call charge, no telemetry. You pay
+      only for the infrastructure you provision and the optional provider
+      API keys you choose to register (all of which are themselves free).
+    entries:
+      - label: Software license
+        name: license_fee
+        type: flat
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.00 (MIT)'
+        userMultiplied: false
+      - label: Per-call cost
+        name: per_call_fee
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.00'
+        userMultiplied: false
+      - label: Infrastructure
+        name: infrastructure
+        type: flat
+        metric: varies
+        limit: 'operator-provisioned'
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'see your cloud provider'
+        userMultiplied: false
+      - label: Optional upstream provider keys
+        name: upstream_provider_keys
+        type: flat
+        metric: varies
+        limit: 6
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.00 (each issued free by the relevant central bank)'
+        userMultiplied: false
+    elements:
+      - name: Full OpenAPI v1 and v2 endpoint surface
+      - name: SQLite storage with optional persistent volume
+      - name: Docker image at lineofflight/frankfurter
+      - name: Optional provider keys for Bank Al-Maghrib, Banco de México, Banco Central de Chile, Bank of Thailand, US Federal Reserve, Turkish Central Bank
+      - name: Full source code on GitHub under MIT

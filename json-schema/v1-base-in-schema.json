@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-base-in-schema.json",
+  "title": "baseIn",
+  "description": "baseIn schema from Frankfurter API",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/base"
+    }
+  ],
+  "default": "EUR"
+}

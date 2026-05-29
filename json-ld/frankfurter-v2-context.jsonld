@@ -1,0 +1,103 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "frankfurter": "https://frankfurter.dev/schema/v2/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "CurrencyDetail": "frankfurter:CurrencyDetail",
+    "Rate": "frankfurter:Rate",
+    "Provider": "frankfurter:Provider",
+    "Currency": "frankfurter:Currency",
+    "isoCode": {
+      "@id": "frankfurter:iso_code",
+      "@type": "xsd:string"
+    },
+    "isoNumeric": {
+      "@id": "frankfurter:iso_numeric",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "symbol": {
+      "@id": "frankfurter:symbol",
+      "@type": "xsd:string"
+    },
+    "providers": {
+      "@id": "frankfurter:providers",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "peg": {
+      "@id": "frankfurter:peg",
+      "@type": "@id"
+    },
+    "base": {
+      "@id": "frankfurter:base",
+      "@type": "xsd:string"
+    },
+    "rate": {
+      "@id": "frankfurter:rate",
+      "@type": "xsd:decimal"
+    },
+    "authority": {
+      "@id": "frankfurter:authority",
+      "@type": "xsd:string"
+    },
+    "source": {
+      "@id": "frankfurter:source",
+      "@type": "@id"
+    },
+    "date": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:date"
+    },
+    "quote": {
+      "@id": "frankfurter:quote",
+      "@type": "xsd:string"
+    },
+    "key": {
+      "@id": "frankfurter:key",
+      "@type": "xsd:string"
+    },
+    "countryCode": {
+      "@id": "frankfurter:country_code",
+      "@type": "xsd:string"
+    },
+    "rateType": {
+      "@id": "frankfurter:rate_type",
+      "@type": "xsd:string"
+    },
+    "pivotCurrency": {
+      "@id": "frankfurter:pivot_currency",
+      "@type": "xsd:string"
+    },
+    "dataUrl": {
+      "@id": "frankfurter:data_url",
+      "@type": "@id"
+    },
+    "termsUrl": {
+      "@id": "frankfurter:terms_url",
+      "@type": "@id"
+    },
+    "startDate": {
+      "@id": "schema:startDate",
+      "@type": "xsd:date"
+    },
+    "endDate": {
+      "@id": "schema:endDate",
+      "@type": "xsd:date"
+    },
+    "publishesMissed": {
+      "@id": "frankfurter:publishes_missed",
+      "@type": "xsd:integer"
+    },
+    "currencies": {
+      "@id": "frankfurter:currencies",
+      "@container": "@set",
+      "@type": "xsd:string"
+    }
+  }
+}

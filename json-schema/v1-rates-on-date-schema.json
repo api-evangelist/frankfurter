@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-rates-on-date-schema.json",
+  "title": "ratesOnDate",
+  "description": "ratesOnDate schema from Frankfurter API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "$ref": "#/components/schemas/amount"
+    },
+    "base": {
+      "$ref": "#/components/schemas/base"
+    },
+    "date": {
+      "$ref": "#/components/schemas/date"
+    },
+    "rates": {
+      "$ref": "#/components/schemas/rates"
+    }
+  },
+  "required": [
+    "base",
+    "date",
+    "rates"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-rates-schema.json",
+  "title": "rates",
+  "description": "Exchange rates keyed by currency code",
+  "type": "object",
+  "additionalProperties": {
+    "type": "number",
+    "exclusiveMinimum": 0,
+    "multipleOf": 1e-05
+  },
+  "example": {
+    "AUD": 1.91,
+    "CAD": 1.8004,
+    "CHF": 1.6168,
+    "CYP": 0.58231
+  },
+  "propertyNames": {
+    "$ref": "#/components/schemas/base"
+  },
+  "minProperties": 1
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/frankfurter/refs/heads/main/json-schema/v1-currencies-schema.json",
+  "title": "currencies",
+  "description": "currencies schema from Frankfurter API",
+  "type": "object",
+  "additionalProperties": {
+    "type": "string",
+    "description": "Full name of the currency",
+    "minLength": 1
+  },
+  "example": {
+    "AUD": "Australian Dollar",
+    "BGN": "Bulgarian Lev",
+    "EUR": "Euro",
+    "USD": "US Dollar"
+  },
+  "propertyNames": {
+    "$ref": "#/components/schemas/base"
+  },
+  "minProperties": 1
+}
