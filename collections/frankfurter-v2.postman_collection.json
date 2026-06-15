@@ -1,0 +1,884 @@
+{
+  "item": [
+    {
+      "id": "551f6fe2-a6ac-4ae1-8e09-96f3243da51e",
+      "name": "Rates",
+      "description": {
+        "content": "Blended currency exchange rates",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "aa3a5de9-da31-4863-bee0-1636334832da",
+          "name": "Frankfurter Get Exchange Rates",
+          "request": {
+            "name": "Frankfurter Get Exchange Rates",
+            "description": {
+              "content": "Returns exchange rates blended across providers. Without date params, returns the latest rates. Each record is a single currency pair.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "Specific date (YYYY-MM-DD). Cannot be combined with from/to."
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Start of date range (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "End of date range (YYYY-MM-DD). Defaults to today."
+                },
+                {
+                  "disabled": false,
+                  "key": "base",
+                  "value": "EUR",
+                  "description": "Base currency (default: EUR)"
+                },
+                {
+                  "disabled": false,
+                  "key": "quotes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of quote currencies to include"
+                },
+                {
+                  "disabled": false,
+                  "key": "providers",
+                  "value": "<string>",
+                  "description": "Comma-separated list of data providers to include"
+                },
+                {
+                  "disabled": false,
+                  "key": "group",
+                  "value": "<string>",
+                  "description": "Downsample rates by time period. Only applies to date ranges."
+                },
+                {
+                  "disabled": false,
+                  "key": "expand",
+                  "value": "<string>",
+                  "description": "Comma-separated list of optional fields to include per record. Currently supports `providers`, which adds an array of `{ key, rate }` objects per record showing each provider's individual rate. Outliers excluded from the blend (and providers whose rate was overridden by a currency peg) are flagged with `excluded: true`. The field is omitted on synthesized peg rows where no provider published the quote. In CSV output, the `providers` column is encoded as `KEY:RATE` pairs joined by `|`, with a trailing `*` on excluded entries (e.g. `ECB:0.92|FED:1.50*`)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a460fc34-088d-4fc4-9931-0276244c3d66",
+              "name": "Exchange rates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2024-01-15"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2024-01-31"
+                    },
+                    {
+                      "key": "base",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "quotes",
+                      "value": "USD,GBP,JPY"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    },
+                    {
+                      "key": "group",
+                      "value": "month"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "providers"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"date\": \"2024-01-15\",\n    \"base\": \"EUR\",\n    \"quote\": \"USD\",\n    \"rate\": 1.089\n  },\n  {\n    \"date\": \"2024-01-15\",\n    \"base\": \"EUR\",\n    \"quote\": \"GBP\",\n    \"rate\": 0.8623\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52b44e3b-b65a-4ef6-917d-a7b4c714d781",
+              "name": "No data found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2024-01-15"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2024-01-31"
+                    },
+                    {
+                      "key": "base",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "quotes",
+                      "value": "USD,GBP,JPY"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    },
+                    {
+                      "key": "group",
+                      "value": "month"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "providers"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4724821f-825f-40c8-8785-19e2a8c37ad5",
+              "name": "Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2024-01-15"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2024-01-31"
+                    },
+                    {
+                      "key": "base",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "quotes",
+                      "value": "USD,GBP,JPY"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    },
+                    {
+                      "key": "group",
+                      "value": "month"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "providers"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c608bd3b-8aef-4228-88da-86c6b579a442",
+          "name": "Frankfurter Get a Single Exchange Rate Pair",
+          "request": {
+            "name": "Frankfurter Get a Single Exchange Rate Pair",
+            "description": {
+              "content": "Returns the blended exchange rate for a single currency pair. Without a date param, returns the latest rate.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rate",
+                ":base",
+                ":quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "Specific date (YYYY-MM-DD). Cannot be combined with from/to."
+                },
+                {
+                  "disabled": false,
+                  "key": "providers",
+                  "value": "<string>",
+                  "description": "Comma-separated list of data providers to include"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "base",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "quote",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f6a3826b-22f5-4587-95f6-c6555529b20b",
+              "name": "Exchange rate",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate",
+                    ":base",
+                    ":quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2024-01-15"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "base",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "quote",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"date\": \"2026-03-25\",\n  \"base\": \"EUR\",\n  \"quote\": \"USD\",\n  \"rate\": 1.1568\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1f5a231-1087-4a93-a790-563f09e03a52",
+              "name": "No data found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate",
+                    ":base",
+                    ":quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2024-01-15"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "base",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "quote",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29a232e3-b332-40d4-ad96-7087f6a2b1e5",
+              "name": "Invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate",
+                    ":base",
+                    ":quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2024-01-15"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "base",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "quote",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e1913cfd-f6f0-4667-a57b-e56966968401",
+      "name": "Currencies",
+      "description": {
+        "content": "Supported currency reference data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4eda9333-dc22-47fc-a4ac-4dc212ebb26d",
+          "name": "Frankfurter Get a Single Currency",
+          "request": {
+            "name": "Frankfurter Get a Single Currency",
+            "description": {
+              "content": "Returns details for a single currency, including provider information or peg metadata.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currency",
+                ":code"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "code",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "07b5fd6f-b2bf-4163-8d17-0f61abe90ed8",
+              "name": "Currency details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currency",
+                    ":code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "code",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"iso_code\": \"USD\",\n  \"iso_numeric\": \"840\",\n  \"name\": \"United States Dollar\",\n  \"symbol\": \"$\",\n  \"providers\": [\n    \"ECB\",\n    \"BOC\",\n    \"FED\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2122373f-4a22-4a59-811c-c8c5038621f7",
+              "name": "No data found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currency",
+                    ":code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "code",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d058a1b8-3ce1-4694-8f47-15c684de7369",
+          "name": "Frankfurter Get Available Currencies",
+          "request": {
+            "name": "Frankfurter Get Available Currencies",
+            "description": {
+              "content": "Returns available currencies with their names and date ranges. By default, only active currencies are included.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currencies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>",
+                  "description": "Set to 'all' to include legacy currencies"
+                },
+                {
+                  "disabled": false,
+                  "key": "providers",
+                  "value": "<string>",
+                  "description": "Comma-separated list of data providers to include"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "25e2c3e4-ca21-488b-856c-a1a2d6c1ad8a",
+              "name": "Available currencies",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currencies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scope",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"iso_code\": \"EUR\",\n    \"iso_numeric\": \"978\",\n    \"name\": \"Euro\",\n    \"symbol\": \"€\",\n    \"start_date\": \"1999-01-04\",\n    \"end_date\": \"2026-03-17\"\n  },\n  {\n    \"iso_code\": \"USD\",\n    \"iso_numeric\": \"840\",\n    \"name\": \"United States Dollar\",\n    \"symbol\": \"$\",\n    \"start_date\": \"1999-01-04\",\n    \"end_date\": \"2026-03-17\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "03a1064f-706d-477a-8e03-8601690fcaaf",
+      "name": "Providers",
+      "description": {
+        "content": "Central-bank and institutional data providers",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4431dc20-0840-48d2-8e7b-f2ed2588130a",
+          "name": "Frankfurter Get Available Data Providers",
+          "request": {
+            "name": "Frankfurter Get Available Data Providers",
+            "description": {
+              "content": "Returns available exchange rate data providers with their base currency.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "providers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "35622501-2f52-495b-bc2e-7ff8b6fef077",
+              "name": "Available providers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"key\": \"ECB\",\n    \"name\": \"European Central Bank\",\n    \"country_code\": \"EU\",\n    \"rate_type\": \"reference\",\n    \"pivot_currency\": \"EUR\",\n    \"data_url\": \"https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html\",\n    \"terms_url\": \"https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html\",\n    \"start_date\": \"1999-01-04\",\n    \"end_date\": \"2026-03-17\",\n    \"currencies\": [\n      \"USD\",\n      \"GBP\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.frankfurter.dev/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fe6d881a-2d28-4398-8605-90d3e0cbc079",
+    "name": "Frankfurter API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Frankfurter is an open-source API for current and historical foreign exchange rates published by central banks.",
+      "type": "text/plain"
+    }
+  }
+}
