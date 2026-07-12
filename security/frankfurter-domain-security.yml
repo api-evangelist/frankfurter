@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: frankfurter.dev
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 24 16:27:24 2026 GMT
+  hsts: false
+- host: api.frankfurter.dev
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 24 16:27:24 2026 GMT
+  hsts: false
+domains:
+- domain: frankfurter.dev
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

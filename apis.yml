@@ -128,6 +128,8 @@ apis:
       - type: Examples
         url: examples/v1-currencies-example.json
 common:
+  - type: DomainSecurity
+    url: security/frankfurter-domain-security.yml
   - type: Website
     url: https://frankfurter.dev
   - type: Documentation
