@@ -1,0 +1,190 @@
+openapi: 3.1.2
+info:
+  title: Frankfurter Currencies API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  contact:
+    url: https://github.com/lineofflight/frankfurter/issues
+  x-generated-from: upstream
+  x-last-validated: '2026-05-29'
+servers:
+- url: https://api.frankfurter.dev/v1
+tags:
+- name: Currencies
+  description: Supported currency reference data
+paths:
+  /currency/{code}:
+    get:
+      operationId: getCurrency
+      summary: Frankfurter Get a Single Currency
+      description: Returns details for a single currency, including provider information or peg metadata.
+      parameters:
+      - name: code
+        in: path
+        required: true
+        schema:
+          type: string
+          example: USD
+      responses:
+        '200':
+          description: Currency details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyDetail'
+              example:
+                iso_code: USD
+                iso_numeric: '840'
+                name: United States Dollar
+                symbol: $
+                providers:
+                - ECB
+                - BOC
+                - FED
+        '404':
+          $ref: '#/components/responses/NotFound'
+      tags:
+      - Currencies
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /currencies:
+    get:
+      operationId: getCurrencies
+      summary: Frankfurter Get Available Currencies
+      description: Returns available currencies with their names and date ranges. By default, only active currencies are included.
+      parameters:
+      - name: scope
+        in: query
+        description: Set to 'all' to include legacy currencies
+        required: false
+        schema:
+          type: string
+          enum:
+          - all
+      - $ref: '#/components/parameters/providers'
+      responses:
+        '200':
+          description: Available currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Currency'
+              example:
+              - iso_code: EUR
+                iso_numeric: '978'
+                name: Euro
+                symbol: €
+                start_date: '1999-01-04'
+                end_date: '2026-03-17'
+              - iso_code: USD
+                iso_numeric: '840'
+                name: United States Dollar
+                symbol: $
+                start_date: '1999-01-04'
+                end_date: '2026-03-17'
+      tags:
+      - Currencies
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  responses:
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  schemas:
+    Currency:
+      type: object
+      properties:
+        iso_code:
+          type: string
+          description: ISO 4217 currency code
+        iso_numeric:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 numeric code
+        name:
+          type: string
+          description: Full currency name
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Currency symbol
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Earliest available date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Latest available date
+      required:
+      - iso_code
+      - name
+    CurrencyDetail:
+      type: object
+      properties:
+        iso_code:
+          type: string
+          description: ISO 4217 currency code
+        iso_numeric:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 numeric code
+        name:
+          type: string
+          description: Full currency name
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Currency symbol
+        providers:
+          type: array
+          items:
+            type: string
+          description: Provider keys that publish this currency
+        peg:
+          type: object
+          properties:
+            base:
+              type: string
+            rate:
+              type: number
+            authority:
+              type: string
+            source:
+              type: string
+              format: uri
+          description: Peg metadata, present only for pegged currencies
+      required:
+      - iso_code
+      - name
+  parameters:
+    providers:
+      name: providers
+      in: query
+      description: Comma-separated list of data providers to include
+      required: false
+      schema:
+        type: string
+        example: ECB,TCMB

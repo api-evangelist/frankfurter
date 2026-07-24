@@ -1,0 +1,151 @@
+openapi: 3.1.2
+info:
+  title: Frankfurter Currencies current-rates API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  contact:
+    url: https://github.com/lineofflight/frankfurter/issues
+  x-generated-from: upstream
+  x-last-validated: '2026-05-29'
+servers:
+- url: https://api.frankfurter.dev/v1
+tags:
+- name: current-rates
+  description: Latest foreign exchange rates
+paths:
+  /latest:
+    get:
+      tags:
+      - current-rates
+      summary: Frankfurter Get the Latest Rates
+      description: Returns the last working day's rates
+      parameters:
+      - $ref: '#/components/parameters/base'
+      - $ref: '#/components/parameters/symbols'
+      responses:
+        '200':
+          description: Latest rates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ratesOnDate'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    date:
+      type: string
+      format: date
+      example: '2024-01-15'
+      description: Date in YYYY-MM-DD format, all dates stored in UTC.
+    base:
+      type: string
+      enum:
+      - AUD
+      - BGN
+      - BRL
+      - CAD
+      - CHF
+      - CNY
+      - CZK
+      - DKK
+      - EUR
+      - GBP
+      - HKD
+      - HUF
+      - IDR
+      - ILS
+      - INR
+      - ISK
+      - JPY
+      - KRW
+      - MXN
+      - MYR
+      - NOK
+      - NZD
+      - PHP
+      - PLN
+      - RON
+      - SEK
+      - SGD
+      - THB
+      - TRY
+      - USD
+      - ZAR
+      description: The base currency code following ISO4217
+    baseIn:
+      allOf:
+      - $ref: '#/components/schemas/base'
+      default: EUR
+    rates:
+      type: object
+      description: Exchange rates keyed by currency code
+      propertyNames:
+        $ref: '#/components/schemas/base'
+      additionalProperties:
+        type: number
+        exclusiveMinimum: 0
+        multipleOf: 1e-05
+      minProperties: 1
+      example:
+        AUD: 1.91
+        CAD: 1.8004
+        CHF: 1.6168
+        CYP: 0.58231
+    ratesOnDate:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/amount'
+        base:
+          $ref: '#/components/schemas/base'
+        date:
+          $ref: '#/components/schemas/date'
+        rates:
+          $ref: '#/components/schemas/rates'
+      required:
+      - base
+      - date
+      - rates
+    amount:
+      type: number
+      description: The amount to convert
+      exclusiveMinimum: 0
+  parameters:
+    base:
+      name: base
+      in: query
+      description: Base currency to convert from
+      required: false
+      schema:
+        $ref: '#/components/schemas/baseIn'
+    symbols:
+      name: symbols
+      in: query
+      description: Comma-separated list of currencies to convert to
+      required: false
+      schema:
+        type: array
+        description: A list of currencies
+        items:
+          $ref: '#/components/schemas/base'
+        minItems: 1
+      explode: false
+      example: USD,GBP
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: not found

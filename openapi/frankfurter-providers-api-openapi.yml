@@ -1,0 +1,115 @@
+openapi: 3.1.2
+info:
+  title: Frankfurter Currencies Providers API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  contact:
+    url: https://github.com/lineofflight/frankfurter/issues
+  x-generated-from: upstream
+  x-last-validated: '2026-05-29'
+servers:
+- url: https://api.frankfurter.dev/v1
+tags:
+- name: Providers
+  description: Central-bank and institutional data providers
+paths:
+  /providers:
+    get:
+      operationId: getProviders
+      summary: Frankfurter Get Available Data Providers
+      description: Returns available exchange rate data providers with their base currency.
+      responses:
+        '200':
+          description: Available providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+              example:
+              - key: ECB
+                name: European Central Bank
+                country_code: EU
+                rate_type: reference
+                pivot_currency: EUR
+                data_url: https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html
+                terms_url: https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html
+                start_date: '1999-01-04'
+                end_date: '2026-03-17'
+                currencies:
+                - USD
+                - GBP
+      tags:
+      - Providers
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Provider:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Provider identifier
+        name:
+          type: string
+          description: Full provider name
+        country_code:
+          type:
+          - string
+          - 'null'
+          description: ISO 3166-1 alpha-2 country code
+        rate_type:
+          type:
+          - string
+          - 'null'
+          description: Official rate type as used by the source
+        pivot_currency:
+          type:
+          - string
+          - 'null'
+          description: Base currency for published rates
+        data_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Link to the data source
+        terms_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Link to terms of use
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Earliest available date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Latest available date
+        publishes_missed:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          description: Number of expected publishes missed since end_date. For daily providers, counts scheduled publish days strictly between end_date and today. For weekly and monthly providers, counts ISO weeks or calendar months between the latest imported bucket and the bucket whose publish window has already started. Null when the provider has no scheduled cadence or no imported data.
+        currencies:
+          type: array
+          items:
+            type: string
+          description: Currency codes covered by this provider
+      required:
+      - key
+      - name
+      - currencies

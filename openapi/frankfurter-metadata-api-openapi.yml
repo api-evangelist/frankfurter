@@ -1,0 +1,85 @@
+openapi: 3.1.2
+info:
+  title: Frankfurter Currencies metadata API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  contact:
+    url: https://github.com/lineofflight/frankfurter/issues
+  x-generated-from: upstream
+  x-last-validated: '2026-05-29'
+servers:
+- url: https://api.frankfurter.dev/v1
+tags:
+- name: metadata
+  description: API reference data like available currencies
+paths:
+  /currencies:
+    get:
+      tags:
+      - metadata
+      summary: Frankfurter Get Available Currencies
+      description: Returns a list of available currencies with their full names
+      responses:
+        '200':
+          description: List of available currencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/currencies'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    currencies:
+      type: object
+      propertyNames:
+        $ref: '#/components/schemas/base'
+      additionalProperties:
+        type: string
+        description: Full name of the currency
+        minLength: 1
+      minProperties: 1
+      example:
+        AUD: Australian Dollar
+        BGN: Bulgarian Lev
+        EUR: Euro
+        USD: US Dollar
+    base:
+      type: string
+      enum:
+      - AUD
+      - BGN
+      - BRL
+      - CAD
+      - CHF
+      - CNY
+      - CZK
+      - DKK
+      - EUR
+      - GBP
+      - HKD
+      - HUF
+      - IDR
+      - ILS
+      - INR
+      - ISK
+      - JPY
+      - KRW
+      - MXN
+      - MYR
+      - NOK
+      - NZD
+      - PHP
+      - PLN
+      - RON
+      - SEK
+      - SGD
+      - THB
+      - TRY
+      - USD
+      - ZAR
+      description: The base currency code following ISO4217
