@@ -1,4 +1,17 @@
 aid: frankfurter
+accessModel:
+  pricing: freemium
+  onboarding: open
+  trial: false
+  try_now: true
+  public: true
+  label: Freemium · Open access
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/frankfurter.png
 name: Frankfurter
 description: >-
   Frankfurter is an open-source (MIT) currency exchange rates API that blends foreign-exchange reference rates published
@@ -23,110 +36,474 @@ tags:
   - Self-Hosted
   - Public APIs
 apis:
-  - name: Frankfurter API v2
-    description: >-
-      Current Frankfurter API. Blended exchange rates across multiple institutional providers, one row per currency
-      pair, with optional per-provider expansion, week/month downsampling, and NDJSON streaming.
-    humanURL: https://frankfurter.dev/docs
-    baseURL: https://api.frankfurter.dev/v2
-    tags:
-      - Currency Exchange
-      - Rates
-      - Currencies
-      - Providers
-    properties:
-      - type: Documentation
-        url: https://frankfurter.dev/docs
-      - type: OpenAPI
-        url: openapi/frankfurter-v2-openapi.yml
-      - type: OpenAPI
-        title: Upstream OpenAPI
-        url: https://api.frankfurter.dev/v2/openapi.json
-      - type: JSONSchema
-        url: json-schema/v2-rate-schema.json
-      - type: JSONSchema
-        url: json-schema/v2-currency-schema.json
-      - type: JSONSchema
-        url: json-schema/v2-currency-detail-schema.json
-      - type: JSONSchema
-        url: json-schema/v2-provider-schema.json
-      - type: JSONStructure
-        url: json-structure/v2-rate-structure.json
-      - type: JSONStructure
-        url: json-structure/v2-currency-structure.json
-      - type: JSONStructure
-        url: json-structure/v2-currency-detail-structure.json
-      - type: JSONStructure
-        url: json-structure/v2-provider-structure.json
-      - type: JSONLD
-        url: json-ld/frankfurter-v2-context.jsonld
-      - type: Examples
-        url: examples/v2-rate-example.json
-      - type: Examples
-        url: examples/v2-currency-example.json
-      - type: Examples
-        url: examples/v2-currency-detail-example.json
-      - type: Examples
-        url: examples/v2-provider-example.json
-  - name: Frankfurter API v1
-    description: >-
-      Frozen v1 Frankfurter API. ECB-style reference rates with single-base aggregate response shape (rates keyed by
-      quote currency). Maintained for backward compatibility; new integrations should use v2.
-    humanURL: https://frankfurter.dev/docs
-    baseURL: https://api.frankfurter.dev/v1
-    tags:
-      - Currency Exchange
-      - Current Rates
-      - Historical Rates
-      - Metadata
-    properties:
-      - type: Documentation
-        url: https://frankfurter.dev/docs
-      - type: OpenAPI
-        url: openapi/frankfurter-v1-openapi.yml
-      - type: OpenAPI
-        title: Upstream OpenAPI
-        url: https://api.frankfurter.dev/v1/openapi.json
-      - type: JSONSchema
-        url: json-schema/v1-rates-on-date-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-rates-by-date-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-rates-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-currencies-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-amount-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-base-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-base-in-schema.json
-      - type: JSONSchema
-        url: json-schema/v1-date-schema.json
-      - type: JSONStructure
-        url: json-structure/v1-rates-on-date-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-rates-by-date-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-rates-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-currencies-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-amount-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-base-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-base-in-structure.json
-      - type: JSONStructure
-        url: json-structure/v1-date-structure.json
-      - type: JSONLD
-        url: json-ld/frankfurter-v1-context.jsonld
-      - type: Examples
-        url: examples/v1-rates-on-date-example.json
-      - type: Examples
-        url: examples/v1-rates-by-date-example.json
-      - type: Examples
-        url: examples/v1-currencies-example.json
+- aid: frankfurter:frankfurter-currencies-api
+  name: Frankfurter Currencies API
+  description: Supported currency reference data
+  humanURL: https://frankfurter.dev/docs
+  baseURL: https://api.frankfurter.dev/v2
+  tags:
+  - Currencies
+  properties:
+  - type: OpenAPI
+    url: openapi/frankfurter-currencies-api-openapi.yml
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: JSONSchema
+    url: json-schema/v2-rate-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-provider-schema.json
+  - type: JSONStructure
+    url: json-structure/v2-rate-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-detail-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-provider-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v2-context.jsonld
+  - type: Examples
+    url: examples/v2-rate-example.json
+  - type: Examples
+    url: examples/v2-currency-example.json
+  - type: Examples
+    url: examples/v2-currency-detail-example.json
+  - type: Examples
+    url: examples/v2-provider-example.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-on-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-by-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-currencies-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-amount-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-in-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-date-schema.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-on-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-by-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-currencies-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-amount-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-in-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-date-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v1-context.jsonld
+  - type: Examples
+    url: examples/v1-rates-on-date-example.json
+  - type: Examples
+    url: examples/v1-rates-by-date-example.json
+  - type: Examples
+    url: examples/v1-currencies-example.json
+- aid: frankfurter:frankfurter-current-rates-api
+  name: Frankfurter current-rates API
+  description: Latest foreign exchange rates
+  humanURL: https://frankfurter.dev/docs
+  baseURL: https://api.frankfurter.dev/v2
+  tags:
+  - current-rates
+  properties:
+  - type: OpenAPI
+    url: openapi/frankfurter-current-rates-api-openapi.yml
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: JSONSchema
+    url: json-schema/v2-rate-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-provider-schema.json
+  - type: JSONStructure
+    url: json-structure/v2-rate-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-detail-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-provider-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v2-context.jsonld
+  - type: Examples
+    url: examples/v2-rate-example.json
+  - type: Examples
+    url: examples/v2-currency-example.json
+  - type: Examples
+    url: examples/v2-currency-detail-example.json
+  - type: Examples
+    url: examples/v2-provider-example.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-on-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-by-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-currencies-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-amount-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-in-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-date-schema.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-on-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-by-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-currencies-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-amount-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-in-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-date-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v1-context.jsonld
+  - type: Examples
+    url: examples/v1-rates-on-date-example.json
+  - type: Examples
+    url: examples/v1-rates-by-date-example.json
+  - type: Examples
+    url: examples/v1-currencies-example.json
+- aid: frankfurter:frankfurter-historical-rates-api
+  name: Frankfurter historical-rates API
+  description: Historical exchange rates for specific dates and periods
+  humanURL: https://frankfurter.dev/docs
+  baseURL: https://api.frankfurter.dev/v2
+  tags:
+  - historical-rates
+  properties:
+  - type: OpenAPI
+    url: openapi/frankfurter-historical-rates-api-openapi.yml
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: JSONSchema
+    url: json-schema/v2-rate-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-provider-schema.json
+  - type: JSONStructure
+    url: json-structure/v2-rate-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-detail-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-provider-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v2-context.jsonld
+  - type: Examples
+    url: examples/v2-rate-example.json
+  - type: Examples
+    url: examples/v2-currency-example.json
+  - type: Examples
+    url: examples/v2-currency-detail-example.json
+  - type: Examples
+    url: examples/v2-provider-example.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-on-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-by-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-currencies-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-amount-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-in-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-date-schema.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-on-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-by-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-currencies-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-amount-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-in-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-date-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v1-context.jsonld
+  - type: Examples
+    url: examples/v1-rates-on-date-example.json
+  - type: Examples
+    url: examples/v1-rates-by-date-example.json
+  - type: Examples
+    url: examples/v1-currencies-example.json
+- aid: frankfurter:frankfurter-metadata-api
+  name: Frankfurter metadata API
+  description: API reference data like available currencies
+  humanURL: https://frankfurter.dev/docs
+  baseURL: https://api.frankfurter.dev/v2
+  tags:
+  - metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/frankfurter-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: JSONSchema
+    url: json-schema/v2-rate-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-provider-schema.json
+  - type: JSONStructure
+    url: json-structure/v2-rate-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-detail-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-provider-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v2-context.jsonld
+  - type: Examples
+    url: examples/v2-rate-example.json
+  - type: Examples
+    url: examples/v2-currency-example.json
+  - type: Examples
+    url: examples/v2-currency-detail-example.json
+  - type: Examples
+    url: examples/v2-provider-example.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-on-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-by-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-currencies-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-amount-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-in-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-date-schema.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-on-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-by-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-currencies-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-amount-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-in-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-date-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v1-context.jsonld
+  - type: Examples
+    url: examples/v1-rates-on-date-example.json
+  - type: Examples
+    url: examples/v1-rates-by-date-example.json
+  - type: Examples
+    url: examples/v1-currencies-example.json
+- aid: frankfurter:frankfurter-providers-api
+  name: Frankfurter Providers API
+  description: Central-bank and institutional data providers
+  humanURL: https://frankfurter.dev/docs
+  baseURL: https://api.frankfurter.dev/v2
+  tags:
+  - Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/frankfurter-providers-api-openapi.yml
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: JSONSchema
+    url: json-schema/v2-rate-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-provider-schema.json
+  - type: JSONStructure
+    url: json-structure/v2-rate-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-detail-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-provider-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v2-context.jsonld
+  - type: Examples
+    url: examples/v2-rate-example.json
+  - type: Examples
+    url: examples/v2-currency-example.json
+  - type: Examples
+    url: examples/v2-currency-detail-example.json
+  - type: Examples
+    url: examples/v2-provider-example.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-on-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-by-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-currencies-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-amount-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-in-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-date-schema.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-on-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-by-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-currencies-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-amount-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-in-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-date-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v1-context.jsonld
+  - type: Examples
+    url: examples/v1-rates-on-date-example.json
+  - type: Examples
+    url: examples/v1-rates-by-date-example.json
+  - type: Examples
+    url: examples/v1-currencies-example.json
+- aid: frankfurter:frankfurter-rates-api
+  name: Frankfurter Rates API
+  description: Blended currency exchange rates
+  humanURL: https://frankfurter.dev/docs
+  baseURL: https://api.frankfurter.dev/v2
+  tags:
+  - Rates
+  properties:
+  - type: OpenAPI
+    url: openapi/frankfurter-rates-api-openapi.yml
+  - type: Documentation
+    url: https://frankfurter.dev/docs
+  - type: JSONSchema
+    url: json-schema/v2-rate-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-currency-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/v2-provider-schema.json
+  - type: JSONStructure
+    url: json-structure/v2-rate-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-currency-detail-structure.json
+  - type: JSONStructure
+    url: json-structure/v2-provider-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v2-context.jsonld
+  - type: Examples
+    url: examples/v2-rate-example.json
+  - type: Examples
+    url: examples/v2-currency-example.json
+  - type: Examples
+    url: examples/v2-currency-detail-example.json
+  - type: Examples
+    url: examples/v2-provider-example.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-on-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-by-date-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-rates-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-currencies-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-amount-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-base-in-schema.json
+  - type: JSONSchema
+    url: json-schema/v1-date-schema.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-on-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-by-date-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-rates-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-currencies-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-amount-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-base-in-structure.json
+  - type: JSONStructure
+    url: json-structure/v1-date-structure.json
+  - type: JSONLD
+    url: json-ld/frankfurter-v1-context.jsonld
+  - type: Examples
+    url: examples/v1-rates-on-date-example.json
+  - type: Examples
+    url: examples/v1-rates-by-date-example.json
+  - type: Examples
+    url: examples/v1-currencies-example.json
 common:
   - type: AgenticAccess
     url: agentic-access/frankfurter-agentic-access.yml
