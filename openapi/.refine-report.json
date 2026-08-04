@@ -1,0 +1,24 @@
+{
+  "provider": "frankfurter",
+  "sources": [
+    "frankfurter-currencies-api-openapi.yml",
+    "frankfurter-current-rates-api-openapi.yml",
+    "frankfurter-historical-rates-api-openapi.yml",
+    "frankfurter-metadata-api-openapi.yml",
+    "frankfurter-providers-api-openapi.yml",
+    "frankfurter-rates-api-openapi.yml"
+  ],
+  "outputs": [
+    "frankfurter-currencies-api-openapi.yml",
+    "frankfurter-current-rates-api-openapi.yml",
+    "frankfurter-historical-rates-api-openapi.yml",
+    "frankfurter-metadata-api-openapi.yml",
+    "frankfurter-providers-api-openapi.yml",
+    "frankfurter-rates-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
