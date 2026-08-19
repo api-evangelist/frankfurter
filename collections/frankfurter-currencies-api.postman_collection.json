@@ -1,0 +1,256 @@
+{
+  "item": [
+    {
+      "id": "3b012c02-877f-42f0-9587-90d39f6a55a6",
+      "name": "Currencies",
+      "description": {
+        "content": "Supported currency reference data",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5ed0b4a3-af78-4d91-97e8-f2e655e455c6",
+          "name": "Frankfurter Get a Single Currency",
+          "request": {
+            "name": "Frankfurter Get a Single Currency",
+            "description": {
+              "content": "Returns details for a single currency, including provider information or peg metadata.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currency",
+                ":code"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "code",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4b26f641-aeda-44d1-bb6a-3210965bda71",
+              "name": "Currency details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currency",
+                    ":code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "code",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"iso_code\": \"USD\",\n  \"iso_numeric\": \"840\",\n  \"name\": \"United States Dollar\",\n  \"symbol\": \"$\",\n  \"providers\": [\n    \"ECB\",\n    \"BOC\",\n    \"FED\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "754c96b3-dea0-4bbe-a4d4-35820e75386f",
+              "name": "No data found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currency",
+                    ":code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "code",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "66c013cd-4894-4838-ac10-5dea50478ded",
+          "name": "Frankfurter Get Available Currencies",
+          "request": {
+            "name": "Frankfurter Get Available Currencies",
+            "description": {
+              "content": "Returns available currencies with their names and date ranges. By default, only active currencies are included.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currencies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "scope",
+                  "value": "<string>",
+                  "description": "Set to 'all' to include legacy currencies"
+                },
+                {
+                  "disabled": false,
+                  "key": "providers",
+                  "value": "<string>",
+                  "description": "Comma-separated list of data providers to include"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "22575be6-938f-4643-b3a4-afc1e9d8be70",
+              "name": "Available currencies",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currencies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scope",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "providers",
+                      "value": "ECB,TCMB"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"iso_code\": \"EUR\",\n    \"iso_numeric\": \"978\",\n    \"name\": \"Euro\",\n    \"symbol\": \"€\",\n    \"start_date\": \"1999-01-04\",\n    \"end_date\": \"2026-03-17\"\n  },\n  {\n    \"iso_code\": \"USD\",\n    \"iso_numeric\": \"840\",\n    \"name\": \"United States Dollar\",\n    \"symbol\": \"$\",\n    \"start_date\": \"1999-01-04\",\n    \"end_date\": \"2026-03-17\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.frankfurter.dev/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ebf1e326-27b2-4751-8c39-787ac9a8da67",
+    "name": "Frankfurter Currencies API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.",
+      "type": "text/plain"
+    }
+  }
+}

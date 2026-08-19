@@ -1,0 +1,484 @@
+{
+  "item": [
+    {
+      "id": "0ba3bf78-0db6-4d0f-abe4-10df5d057b8b",
+      "name": "historical-rates",
+      "description": {
+        "content": "Historical exchange rates for specific dates and periods",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4fa5c0ba-e102-4935-97b2-34d680976b47",
+          "name": "Frankfurter Get Rates for a Past Date",
+          "request": {
+            "name": "Frankfurter Get Rates for a Past Date",
+            "description": {
+              "content": "Returns historical rates for the working day closest to the specified date",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":date"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "base",
+                  "value": "EUR",
+                  "description": "Base currency to convert from"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of currencies to convert to"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<date>",
+                  "key": "date",
+                  "description": "(Required) The date for the historical rates"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40958ded-41bd-43bd-b652-0454adee2bca",
+              "name": "Historical rates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":date"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "HKD"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "date",
+                      "description": "(Required) The date for the historical rates"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base\": \"TRY\",\n  \"date\": \"2024-01-15\",\n  \"rates\": {\n    \"key_0\": 491.62144000000006,\n    \"key_1\": 1073.73873\n  },\n  \"amount\": 119.72592821771372\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3ca85f2-bd61-4bc0-9932-7c6367ab37a6",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":date"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "HKD"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<date>",
+                      "key": "date",
+                      "description": "(Required) The date for the historical rates"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9a7518d7-e4d1-4533-b0ee-3b0bb464c2ce",
+          "name": "Frankfurter Get Rates for a Time Period",
+          "request": {
+            "name": "Frankfurter Get Rates for a Time Period",
+            "description": {
+              "content": "Returns historical rates for every day within a time period starting from the provided date until today.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "{{start_date}}.."
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "base",
+                  "value": "EUR",
+                  "description": "Base currency to convert from"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of currencies to convert to"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a88243eb-0fe7-4787-8cfd-0aa4a2152538",
+              "name": "Historical rates for the period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "{{start_date}}.."
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "HKD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base\": \"RON\",\n  \"start_date\": \"2024-01-15\",\n  \"end_date\": \"2024-01-15\",\n  \"rates\": {\n    \"key_0\": {\n      \"key_0\": 4292.82124\n    }\n  },\n  \"amount\": 7580.058548723301\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec1c8656-fb23-4bab-9a69-3fbf20e18e96",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "{{start_date}}.."
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "HKD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e3a81c63-4dfa-44d5-a01b-16e42651fbbb",
+          "name": "Frankfurter Get Rates for a Time Period",
+          "request": {
+            "name": "Frankfurter Get Rates for a Time Period",
+            "description": {
+              "content": "Returns historical rates for every day within a time period. The end date defaults to today if not provided.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "{{start_date}}..{{end_date}}"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "base",
+                  "value": "EUR",
+                  "description": "Base currency to convert from"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of currencies to convert to"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ce71f38-8fad-4a68-a476-33ad78bd2d8a",
+              "name": "Historical rates for the period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "{{start_date}}..{{end_date}}"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "HKD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base\": \"RON\",\n  \"start_date\": \"2024-01-15\",\n  \"end_date\": \"2024-01-15\",\n  \"rates\": {\n    \"key_0\": {\n      \"key_0\": 4292.82124\n    }\n  },\n  \"amount\": 7580.058548723301\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ec13abe-b52f-41d7-971d-0a9c13654adf",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "{{start_date}}..{{end_date}}"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "HKD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.frankfurter.dev/v1",
+      "key": "baseUrl"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) The start date for the period",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<date>",
+      "key": "start_date"
+    },
+    {
+      "disabled": false,
+      "description": {
+        "content": "(Required) The end date for the period",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "<date>",
+      "key": "end_date"
+    }
+  ],
+  "info": {
+    "_postman_id": "671218b6-9ce9-4b4c-be39-84f7edd8f15f",
+    "name": "Frankfurter Currencies historical-rates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.",
+      "type": "text/plain"
+    }
+  }
+}

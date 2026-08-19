@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Frankfurter Currencies API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Currencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Frankfurter Get a Single Currency",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.frankfurter.dev/v1/currency/:code",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details for a single currency, including provider information or peg metadata."
+        },
+        {
+          "info": {
+            "name": "Frankfurter Get Available Currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.frankfurter.dev/v1/currencies",
+            "params": [
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "Set to 'all' to include legacy currencies"
+              },
+              {
+                "name": "providers",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of data providers to include"
+              }
+            ]
+          },
+          "docs": "Returns available currencies with their names and date ranges. By default, only active currencies are included."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

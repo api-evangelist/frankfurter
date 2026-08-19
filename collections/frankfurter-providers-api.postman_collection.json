@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "18464c87-1aad-4477-bb0d-3bffcaee3c2b",
+      "name": "Providers",
+      "description": {
+        "content": "Central-bank and institutional data providers",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8a7210a4-c7e6-414e-9492-6b21547be370",
+          "name": "Frankfurter Get Available Data Providers",
+          "request": {
+            "name": "Frankfurter Get Available Data Providers",
+            "description": {
+              "content": "Returns available exchange rate data providers with their base currency.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "providers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c497e49-58db-4ae1-bdbc-350e17610750",
+              "name": "Available providers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "providers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"key\": \"ECB\",\n    \"name\": \"European Central Bank\",\n    \"country_code\": \"EU\",\n    \"rate_type\": \"reference\",\n    \"pivot_currency\": \"EUR\",\n    \"data_url\": \"https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html\",\n    \"terms_url\": \"https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html\",\n    \"start_date\": \"1999-01-04\",\n    \"end_date\": \"2026-03-17\",\n    \"currencies\": [\n      \"USD\",\n      \"GBP\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.frankfurter.dev/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "342dacb8-db2a-4f50-a94c-c113411946f7",
+    "name": "Frankfurter Currencies Providers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.",
+      "type": "text/plain"
+    }
+  }
+}

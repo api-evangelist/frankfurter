@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Frankfurter Currencies Providers API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Providers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Frankfurter Get Available Data Providers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.frankfurter.dev/v1/providers"
+          },
+          "docs": "Returns available exchange rate data providers with their base currency."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Frankfurter Currencies current-rates API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "current-rates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Frankfurter Get the Latest Rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.frankfurter.dev/v1/latest",
+            "params": [
+              {
+                "name": "base",
+                "value": "",
+                "type": "query",
+                "description": "Base currency to convert from"
+              },
+              {
+                "name": "symbols",
+                "value": "USD,GBP",
+                "type": "query",
+                "description": "Comma-separated list of currencies to convert to"
+              }
+            ]
+          },
+          "docs": "Returns the last working day's rates"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,168 @@
+{
+  "item": [
+    {
+      "id": "46521b54-739b-4183-acb8-2016c1f03fa0",
+      "name": "current-rates",
+      "description": {
+        "content": "Latest foreign exchange rates",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cae00b6c-74d0-4cfa-871e-376b4ba50945",
+          "name": "Frankfurter Get the Latest Rates",
+          "request": {
+            "name": "Frankfurter Get the Latest Rates",
+            "description": {
+              "content": "Returns the last working day's rates",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "latest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "base",
+                  "value": "EUR",
+                  "description": "Base currency to convert from"
+                },
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Comma-separated list of currencies to convert to"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "73dc2125-bced-4c00-88aa-44d15c6f0522",
+              "name": "Latest rates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "PLN"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base\": \"AUD\",\n  \"date\": \"2024-01-15\",\n  \"rates\": {\n    \"key_0\": 9331.1599,\n    \"key_1\": 8122.49037,\n    \"key_2\": 2944.7987300000004,\n    \"key_3\": 3036.3340900000003\n  },\n  \"amount\": 1194.8840350907765\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47c47657-ea58-42e9-8a00-105c291313e8",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "base",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "symbols",
+                      "value": "PLN"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.frankfurter.dev/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d4dfb8cd-490e-4549-993c-c3aef4670c79",
+    "name": "Frankfurter Currencies current-rates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.",
+      "type": "text/plain"
+    }
+  }
+}

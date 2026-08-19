@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Frankfurter Currencies metadata API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Frankfurter Get Available Currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.frankfurter.dev/v1/currencies"
+          },
+          "docs": "Returns a list of available currencies with their full names"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

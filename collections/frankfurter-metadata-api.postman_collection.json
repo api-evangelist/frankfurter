@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "dbca87ef-54b0-49f6-928e-60a97260b6a1",
+      "name": "metadata",
+      "description": {
+        "content": "API reference data like available currencies",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7dc2a42c-ab06-4a9e-b544-3e900b5c2412",
+          "name": "Frankfurter Get Available Currencies",
+          "request": {
+            "name": "Frankfurter Get Available Currencies",
+            "description": {
+              "content": "Returns a list of available currencies with their full names",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "currencies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5081b50e-fcd0-42ea-828a-cd4fa3a611d3",
+              "name": "List of available currencies",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "currencies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AUD\": \"Australian Dollar\",\n  \"BGN\": \"Bulgarian Lev\",\n  \"EUR\": \"Euro\",\n  \"USD\": \"US Dollar\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.frankfurter.dev/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d76de3a6-9595-42f9-a470-fd11838c3bdd",
+    "name": "Frankfurter Currencies metadata API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.",
+      "type": "text/plain"
+    }
+  }
+}
