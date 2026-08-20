@@ -31,6 +31,14 @@ tags:
   - Currency Exchange
   - Foreign Exchange
   - FX
+  - Open-Source
+  - MIT
+  - Self-Hosted
+  - Public APIs
+tags_raw:
+  - Currency Exchange
+  - Foreign Exchange
+  - FX
   - Open Source
   - MIT
   - Self-Hosted
@@ -42,6 +50,8 @@ apis:
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2
   tags:
+  - Currency
+  tags_raw:
   - Currencies
   properties:
   - type: OpenAPI
@@ -198,6 +208,8 @@ apis:
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2
   tags:
+  - Historical Rates
+  tags_raw:
   - historical-rates
   properties:
   - type: OpenAPI
@@ -276,6 +288,8 @@ apis:
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2
   tags:
+  - Metadata
+  tags_raw:
   - metadata
   properties:
   - type: OpenAPI
