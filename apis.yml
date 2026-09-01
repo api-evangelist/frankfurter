@@ -221,7 +221,7 @@ apis:
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2
   tags:
-  - historical-rates
+  - Historical Rates
   tags_raw:
   - historical-rates
   properties:
