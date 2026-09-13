@@ -1,0 +1,28 @@
+generated: '2026-09-11'
+method: probed
+source: https://mcp.frankfurter.dev/
+status: published
+server:
+  name: frankfurter
+  transport: http
+  url: https://mcp.frankfurter.dev/
+deployment:
+  mode: remote
+  endpoint: https://mcp.frankfurter.dev/
+  verified: probed
+  probe: live
+  checked: '2026-09-11'
+  source: docs-check 2026-09-11 (endpoint found in the provider's own documentation, then probed)
+  probe_why: docs-check
+tools_count: 4
+tools:
+- name: get_rates
+  description: ''
+- name: convert
+  description: ''
+- name: list_currencies
+  description: ''
+- name: list_providers
+  description: ''
+tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
+authorship: provider
