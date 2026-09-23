@@ -1,8 +1,8 @@
-openapi: 3.1.2
+openapi: 3.2.0
 info:
-  title: Frankfurter Currencies Rates API
-  description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
-  version: 1.0.0
+  title: Frankfurter Rates API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates published by central banks.
+  version: 2.1.1
   license:
     name: MIT
     url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
@@ -11,7 +11,7 @@ info:
   x-generated-from: upstream
   x-last-validated: '2026-05-29'
 servers:
-- url: https://api.frankfurter.dev/v1
+- url: https://api.frankfurter.dev/v2
 tags:
 - name: Rates
   description: Blended currency exchange rates
@@ -108,6 +108,80 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    expand:
+      name: expand
+      in: query
+      description: 'Comma-separated list of optional fields to include per record. Currently supports `providers`, which adds an array of `{ key, rate }` objects per record showing each provider''s individual rate. Outliers excluded from the blend (and providers whose rate was overridden by a currency peg) are flagged with `excluded: true`. The field is omitted on synthesized peg rows where no provider published the quote. In CSV output, the `providers` column is encoded as `KEY:RATE` pairs joined by `|`, with a trailing `*` on excluded entries (e.g. `ECB:0.92|FED:1.50*`).'
+      required: false
+      schema:
+        type: string
+        enum:
+        - providers
+        example: providers
+    quotes:
+      name: quotes
+      in: query
+      description: Comma-separated list of quote currencies to include
+      required: false
+      schema:
+        type: string
+        example: USD,GBP,JPY
+    group:
+      name: group
+      in: query
+      description: Downsample rates by time period. Only applies to date ranges.
+      required: false
+      schema:
+        type: string
+        enum:
+        - week
+        - month
+        example: month
+    base:
+      name: base
+      in: query
+      description: 'Base currency (default: EUR)'
+      required: false
+      schema:
+        type: string
+        default: EUR
+        example: USD
+    providers:
+      name: providers
+      in: query
+      description: Comma-separated list of data providers to include
+      required: false
+      schema:
+        type: string
+        example: ECB,TCMB
+    date:
+      name: date
+      in: query
+      description: Specific date (YYYY-MM-DD). Cannot be combined with from/to.
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-15'
+    to:
+      name: to
+      in: query
+      description: End of date range (YYYY-MM-DD). Defaults to today.
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-31'
+    from:
+      name: from
+      in: query
+      description: Start of date range (YYYY-MM-DD)
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-01'
   schemas:
     Rate:
       type: object
@@ -150,80 +224,6 @@ components:
       - base
       - quote
       - rate
-  parameters:
-    expand:
-      name: expand
-      in: query
-      description: 'Comma-separated list of optional fields to include per record. Currently supports `providers`, which adds an array of `{ key, rate }` objects per record showing each provider''s individual rate. Outliers excluded from the blend (and providers whose rate was overridden by a currency peg) are flagged with `excluded: true`. The field is omitted on synthesized peg rows where no provider published the quote. In CSV output, the `providers` column is encoded as `KEY:RATE` pairs joined by `|`, with a trailing `*` on excluded entries (e.g. `ECB:0.92|FED:1.50*`).'
-      required: false
-      schema:
-        type: string
-        enum:
-        - providers
-        example: providers
-    quotes:
-      name: quotes
-      in: query
-      description: Comma-separated list of quote currencies to include
-      required: false
-      schema:
-        type: string
-        example: USD,GBP,JPY
-    group:
-      name: group
-      in: query
-      description: Downsample rates by time period. Only applies to date ranges.
-      required: false
-      schema:
-        type: string
-        enum:
-        - week
-        - month
-        example: month
-    from:
-      name: from
-      in: query
-      description: Start of date range (YYYY-MM-DD)
-      required: false
-      schema:
-        type: string
-        format: date
-        example: '2024-01-01'
-    date:
-      name: date
-      in: query
-      description: Specific date (YYYY-MM-DD). Cannot be combined with from/to.
-      required: false
-      schema:
-        type: string
-        format: date
-        example: '2024-01-15'
-    base:
-      name: base
-      in: query
-      description: 'Base currency (default: EUR)'
-      required: false
-      schema:
-        type: string
-        default: EUR
-        example: USD
-    providers:
-      name: providers
-      in: query
-      description: Comma-separated list of data providers to include
-      required: false
-      schema:
-        type: string
-        example: ECB,TCMB
-    to:
-      name: to
-      in: query
-      description: End of date range (YYYY-MM-DD). Defaults to today.
-      required: false
-      schema:
-        type: string
-        format: date
-        example: '2024-01-31'
   responses:
     NotFound:
       description: No data found

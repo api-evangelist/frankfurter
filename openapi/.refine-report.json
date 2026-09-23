@@ -1,24 +1,32 @@
 {
   "provider": "frankfurter",
   "sources": [
-    "frankfurter-currencies-api-openapi.yml",
-    "frankfurter-current-rates-api-openapi.yml",
-    "frankfurter-historical-rates-api-openapi.yml",
-    "frankfurter-metadata-api-openapi.yml",
-    "frankfurter-providers-api-openapi.yml",
-    "frankfurter-rates-api-openapi.yml"
+    "_original/frankfurter-v1-openapi.yml",
+    "_original/frankfurter-v2-openapi.yml"
   ],
   "outputs": [
-    "frankfurter-currencies-api-openapi.yml",
     "frankfurter-current-rates-api-openapi.yml",
     "frankfurter-historical-rates-api-openapi.yml",
     "frankfurter-metadata-api-openapi.yml",
+    "frankfurter-currencies-api-openapi.yml",
     "frankfurter-providers-api-openapi.yml",
     "frankfurter-rates-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "frankfurter-v1-openapi.yml: upgraded openapi 3.1.2 -> OpenAPI 3.2.0",
+    "frankfurter-v2-openapi.yml: upgraded openapi 3.1.2 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "frankfurter-currencies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "frankfurter-current-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "frankfurter-historical-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "frankfurter-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "frankfurter-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "frankfurter-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

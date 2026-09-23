@@ -1,6 +1,6 @@
-openapi: 3.1.2
+openapi: 3.2.0
 info:
-  title: Frankfurter Currencies current-rates API
+  title: Frankfurter Current Rates API
   description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
   version: 1.0.0
   license:
@@ -37,6 +37,8 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      operationId: getLatest
+      x-operation-id-source: derived
 components:
   schemas:
     date:
@@ -79,25 +81,10 @@ components:
       - USD
       - ZAR
       description: The base currency code following ISO4217
-    baseIn:
-      allOf:
-      - $ref: '#/components/schemas/base'
-      default: EUR
-    rates:
-      type: object
-      description: Exchange rates keyed by currency code
-      propertyNames:
-        $ref: '#/components/schemas/base'
-      additionalProperties:
-        type: number
-        exclusiveMinimum: 0
-        multipleOf: 1e-05
-      minProperties: 1
-      example:
-        AUD: 1.91
-        CAD: 1.8004
-        CHF: 1.6168
-        CYP: 0.58231
+    amount:
+      type: number
+      description: The amount to convert
+      exclusiveMinimum: 0
     ratesOnDate:
       type: object
       properties:
@@ -113,18 +100,26 @@ components:
       - base
       - date
       - rates
-    amount:
-      type: number
-      description: The amount to convert
-      exclusiveMinimum: 0
+    rates:
+      type: object
+      description: Exchange rates keyed by currency code
+      propertyNames:
+        $ref: '#/components/schemas/base'
+      additionalProperties:
+        type: number
+        exclusiveMinimum: 0
+        multipleOf: 1e-05
+      minProperties: 1
+      example:
+        AUD: 1.91
+        CAD: 1.8004
+        CHF: 1.6168
+        CYP: 0.58231
+    baseIn:
+      allOf:
+      - $ref: '#/components/schemas/base'
+      default: EUR
   parameters:
-    base:
-      name: base
-      in: query
-      description: Base currency to convert from
-      required: false
-      schema:
-        $ref: '#/components/schemas/baseIn'
     symbols:
       name: symbols
       in: query
@@ -138,6 +133,13 @@ components:
         minItems: 1
       explode: false
       example: USD,GBP
+    base:
+      name: base
+      in: query
+      description: Base currency to convert from
+      required: false
+      schema:
+        $ref: '#/components/schemas/baseIn'
   responses:
     NotFound:
       description: Resource not found

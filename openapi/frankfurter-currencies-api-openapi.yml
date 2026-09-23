@@ -1,8 +1,8 @@
-openapi: 3.1.2
+openapi: 3.2.0
 info:
   title: Frankfurter Currencies API
-  description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
-  version: 1.0.0
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates published by central banks.
+  version: 2.1.1
   license:
     name: MIT
     url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
@@ -11,7 +11,7 @@ info:
   x-generated-from: upstream
   x-last-validated: '2026-05-29'
 servers:
-- url: https://api.frankfurter.dev/v1
+- url: https://api.frankfurter.dev/v2
 tags:
 - name: Currencies
   description: Supported currency reference data
@@ -94,16 +94,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: No data found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
   schemas:
     Currency:
       type: object
@@ -179,6 +169,16 @@ components:
       required:
       - iso_code
       - name
+  responses:
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
   parameters:
     providers:
       name: providers

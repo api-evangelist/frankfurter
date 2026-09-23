@@ -1,6 +1,6 @@
-openapi: 3.1.2
+openapi: 3.2.0
 info:
-  title: Frankfurter Currencies historical-rates API
+  title: Frankfurter Historical Rates API
   description: Frankfurter is an open-source API for current and historical foreign exchange rates, sourcing currency data from public providers like the European Central Bank.
   version: 1.0.0
   license:
@@ -13,13 +13,13 @@ info:
 servers:
 - url: https://api.frankfurter.dev/v1
 tags:
-- name: historical-rates
+- name: Historical Rates
   description: Historical exchange rates for specific dates and periods
 paths:
   /{date}:
     get:
       tags:
-      - historical-rates
+      - Historical Rates
       summary: Frankfurter Get Rates for a Past Date
       description: Returns historical rates for the working day closest to the specified date
       parameters:
@@ -43,10 +43,12 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      operationId: getByDate
+      x-operation-id-source: derived
   /{start_date}..:
     get:
       tags:
-      - historical-rates
+      - Historical Rates
       summary: Frankfurter Get Rates for a Time Period
       description: Returns historical rates for every day within a time period starting from the provided date until today.
       parameters:
@@ -61,10 +63,12 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      operationId: get{startDate}
+      x-operation-id-source: derived
   /{start_date}..{end_date}:
     get:
       tags:
-      - historical-rates
+      - Historical Rates
       summary: Frankfurter Get Rates for a Time Period
       description: Returns historical rates for every day within a time period. The end date defaults to today if not provided.
       parameters:
@@ -80,6 +84,8 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      operationId: getByStartDate}{endDate
+      x-operation-id-source: derived
 components:
   schemas:
     date:
@@ -87,21 +93,6 @@ components:
       format: date
       example: '2024-01-15'
       description: Date in YYYY-MM-DD format, all dates stored in UTC.
-    ratesByDate:
-      type: object
-      description: Mapping of date → rates object
-      propertyNames:
-        $ref: '#/components/schemas/date'
-      additionalProperties:
-        $ref: '#/components/schemas/rates'
-      minProperties: 1
-      example:
-        '1999-01-04':
-          AUD: 1.91
-        '1999-01-05':
-          AUD: 1.8944
-        '1999-01-06':
-          AUD: 1.882
     base:
       type: string
       enum:
@@ -141,21 +132,21 @@ components:
       allOf:
       - $ref: '#/components/schemas/base'
       default: EUR
-    rates:
+    ratesByDate:
       type: object
-      description: Exchange rates keyed by currency code
+      description: Mapping of date → rates object
       propertyNames:
-        $ref: '#/components/schemas/base'
+        $ref: '#/components/schemas/date'
       additionalProperties:
-        type: number
-        exclusiveMinimum: 0
-        multipleOf: 1e-05
+        $ref: '#/components/schemas/rates'
       minProperties: 1
       example:
-        AUD: 1.91
-        CAD: 1.8004
-        CHF: 1.6168
-        CYP: 0.58231
+        '1999-01-04':
+          AUD: 1.91
+        '1999-01-05':
+          AUD: 1.8944
+        '1999-01-06':
+          AUD: 1.882
     ratesOnDate:
       type: object
       properties:
@@ -171,25 +162,33 @@ components:
       - base
       - date
       - rates
+    rates:
+      type: object
+      description: Exchange rates keyed by currency code
+      propertyNames:
+        $ref: '#/components/schemas/base'
+      additionalProperties:
+        type: number
+        exclusiveMinimum: 0
+        multipleOf: 1e-05
+      minProperties: 1
+      example:
+        AUD: 1.91
+        CAD: 1.8004
+        CHF: 1.6168
+        CYP: 0.58231
     amount:
       type: number
       description: The amount to convert
       exclusiveMinimum: 0
   parameters:
-    start_date:
-      name: start_date
+    end_date:
+      name: end_date
       in: path
       required: true
-      description: The start date for the period
+      description: The end date for the period
       schema:
         $ref: '#/components/schemas/date'
-    base:
-      name: base
-      in: query
-      description: Base currency to convert from
-      required: false
-      schema:
-        $ref: '#/components/schemas/baseIn'
     symbols:
       name: symbols
       in: query
@@ -203,24 +202,21 @@ components:
         minItems: 1
       explode: false
       example: USD,GBP
-    end_date:
-      name: end_date
+    base:
+      name: base
+      in: query
+      description: Base currency to convert from
+      required: false
+      schema:
+        $ref: '#/components/schemas/baseIn'
+    start_date:
+      name: start_date
       in: path
       required: true
-      description: The end date for the period
+      description: The start date for the period
       schema:
         $ref: '#/components/schemas/date'
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: not found
     PeriodRateGetResponse:
       description: Historical rates for the period
       content:
@@ -244,3 +240,13 @@ components:
             - start_date
             - end_date
             - rates
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: not found
