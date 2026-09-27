@@ -40,7 +40,51 @@ paths:
       operationId: getLatest
       x-operation-id-source: derived
 components:
+  parameters:
+    base:
+      name: base
+      in: query
+      description: Base currency to convert from
+      required: false
+      schema:
+        $ref: '#/components/schemas/baseIn'
+    symbols:
+      name: symbols
+      in: query
+      description: Comma-separated list of currencies to convert to
+      required: false
+      schema:
+        type: array
+        description: A list of currencies
+        items:
+          $ref: '#/components/schemas/base'
+        minItems: 1
+      explode: false
+      example: USD,GBP
   schemas:
+    amount:
+      type: number
+      description: The amount to convert
+      exclusiveMinimum: 0
+    baseIn:
+      allOf:
+      - $ref: '#/components/schemas/base'
+      default: EUR
+    ratesOnDate:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/amount'
+        base:
+          $ref: '#/components/schemas/base'
+        date:
+          $ref: '#/components/schemas/date'
+        rates:
+          $ref: '#/components/schemas/rates'
+      required:
+      - base
+      - date
+      - rates
     date:
       type: string
       format: date
@@ -81,25 +125,6 @@ components:
       - USD
       - ZAR
       description: The base currency code following ISO4217
-    amount:
-      type: number
-      description: The amount to convert
-      exclusiveMinimum: 0
-    ratesOnDate:
-      type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/amount'
-        base:
-          $ref: '#/components/schemas/base'
-        date:
-          $ref: '#/components/schemas/date'
-        rates:
-          $ref: '#/components/schemas/rates'
-      required:
-      - base
-      - date
-      - rates
     rates:
       type: object
       description: Exchange rates keyed by currency code
@@ -115,31 +140,6 @@ components:
         CAD: 1.8004
         CHF: 1.6168
         CYP: 0.58231
-    baseIn:
-      allOf:
-      - $ref: '#/components/schemas/base'
-      default: EUR
-  parameters:
-    symbols:
-      name: symbols
-      in: query
-      description: Comma-separated list of currencies to convert to
-      required: false
-      schema:
-        type: array
-        description: A list of currencies
-        items:
-          $ref: '#/components/schemas/base'
-        minItems: 1
-      explode: false
-      example: USD,GBP
-    base:
-      name: base
-      in: query
-      description: Base currency to convert from
-      required: false
-      schema:
-        $ref: '#/components/schemas/baseIn'
   responses:
     NotFound:
       description: Resource not found

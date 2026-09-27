@@ -1,16 +1,21 @@
 aid: frankfurter
 deliveryModel:
-  model: unknown
-  open_source: unknown
+  model: open-core
+  license: MIT
+  license_evidence:
+    repo: lineofflight/frankfurter
+    spdx: MIT
+    stars: 1899
+  open_source: true
   commercial: true
   callable_host: true
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: medium
   source:
   - openapi
   - pricing
-  - repository-unlicensed
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -44,7 +49,7 @@ tags:
   - Currency Exchange
   - Foreign Exchange
   - FX
-  - Open-Source
+  - Open Source
   - MIT
   - Self-Hosted
   - Public APIs
@@ -56,6 +61,7 @@ tags_raw:
   - MIT
   - Self-Hosted
   - Public APIs
+  - Open-Source
 apis:
 - aid: frankfurter:frankfurter-currencies-api
   name: Frankfurter Currencies API
@@ -138,7 +144,7 @@ apis:
   - type: Examples
     url: examples/v1-currencies-example.json
 - aid: frankfurter:frankfurter-current-rates-api
-  name: Frankfurter current-rates API
+  name: Frankfurter Current Rates API
   description: Latest foreign exchange rates
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2
@@ -216,7 +222,7 @@ apis:
   - type: Examples
     url: examples/v1-currencies-example.json
 - aid: frankfurter:frankfurter-historical-rates-api
-  name: Frankfurter historical-rates API
+  name: Frankfurter Historical Rates API
   description: Historical exchange rates for specific dates and periods
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2
@@ -296,7 +302,7 @@ apis:
   - type: Examples
     url: examples/v1-currencies-example.json
 - aid: frankfurter:frankfurter-metadata-api
-  name: Frankfurter metadata API
+  name: Frankfurter Metadata API
   description: API reference data like available currencies
   humanURL: https://frankfurter.dev/docs
   baseURL: https://api.frankfurter.dev/v2

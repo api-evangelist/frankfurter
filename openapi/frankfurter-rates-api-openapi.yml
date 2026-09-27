@@ -109,35 +109,6 @@ paths:
         dispatcher: FALLBACK
 components:
   parameters:
-    expand:
-      name: expand
-      in: query
-      description: 'Comma-separated list of optional fields to include per record. Currently supports `providers`, which adds an array of `{ key, rate }` objects per record showing each provider''s individual rate. Outliers excluded from the blend (and providers whose rate was overridden by a currency peg) are flagged with `excluded: true`. The field is omitted on synthesized peg rows where no provider published the quote. In CSV output, the `providers` column is encoded as `KEY:RATE` pairs joined by `|`, with a trailing `*` on excluded entries (e.g. `ECB:0.92|FED:1.50*`).'
-      required: false
-      schema:
-        type: string
-        enum:
-        - providers
-        example: providers
-    quotes:
-      name: quotes
-      in: query
-      description: Comma-separated list of quote currencies to include
-      required: false
-      schema:
-        type: string
-        example: USD,GBP,JPY
-    group:
-      name: group
-      in: query
-      description: Downsample rates by time period. Only applies to date ranges.
-      required: false
-      schema:
-        type: string
-        enum:
-        - week
-        - month
-        example: month
     base:
       name: base
       in: query
@@ -147,23 +118,6 @@ components:
         type: string
         default: EUR
         example: USD
-    providers:
-      name: providers
-      in: query
-      description: Comma-separated list of data providers to include
-      required: false
-      schema:
-        type: string
-        example: ECB,TCMB
-    date:
-      name: date
-      in: query
-      description: Specific date (YYYY-MM-DD). Cannot be combined with from/to.
-      required: false
-      schema:
-        type: string
-        format: date
-        example: '2024-01-15'
     to:
       name: to
       in: query
@@ -182,6 +136,71 @@ components:
         type: string
         format: date
         example: '2024-01-01'
+    group:
+      name: group
+      in: query
+      description: Downsample rates by time period. Only applies to date ranges.
+      required: false
+      schema:
+        type: string
+        enum:
+        - week
+        - month
+        example: month
+    providers:
+      name: providers
+      in: query
+      description: Comma-separated list of data providers to include
+      required: false
+      schema:
+        type: string
+        example: ECB,TCMB
+    quotes:
+      name: quotes
+      in: query
+      description: Comma-separated list of quote currencies to include
+      required: false
+      schema:
+        type: string
+        example: USD,GBP,JPY
+    expand:
+      name: expand
+      in: query
+      description: 'Comma-separated list of optional fields to include per record. Currently supports `providers`, which adds an array of `{ key, rate }` objects per record showing each provider''s individual rate. Outliers excluded from the blend (and providers whose rate was overridden by a currency peg) are flagged with `excluded: true`. The field is omitted on synthesized peg rows where no provider published the quote. In CSV output, the `providers` column is encoded as `KEY:RATE` pairs joined by `|`, with a trailing `*` on excluded entries (e.g. `ECB:0.92|FED:1.50*`).'
+      required: false
+      schema:
+        type: string
+        enum:
+        - providers
+        example: providers
+    date:
+      name: date
+      in: query
+      description: Specific date (YYYY-MM-DD). Cannot be combined with from/to.
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-15'
+  responses:
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    UnprocessableEntity:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
   schemas:
     Rate:
       type: object
@@ -224,22 +243,3 @@ components:
       - base
       - quote
       - rate
-  responses:
-    NotFound:
-      description: No data found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-    UnprocessableEntity:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string

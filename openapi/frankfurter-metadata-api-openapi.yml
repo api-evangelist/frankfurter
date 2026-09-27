@@ -36,20 +36,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    currencies:
-      type: object
-      propertyNames:
-        $ref: '#/components/schemas/base'
-      additionalProperties:
-        type: string
-        description: Full name of the currency
-        minLength: 1
-      minProperties: 1
-      example:
-        AUD: Australian Dollar
-        BGN: Bulgarian Lev
-        EUR: Euro
-        USD: US Dollar
     base:
       type: string
       enum:
@@ -85,3 +71,17 @@ components:
       - USD
       - ZAR
       description: The base currency code following ISO4217
+    currencies:
+      type: object
+      propertyNames:
+        $ref: '#/components/schemas/base'
+      additionalProperties:
+        type: string
+        description: Full name of the currency
+        minLength: 1
+      minProperties: 1
+      example:
+        AUD: Australian Dollar
+        BGN: Bulgarian Lev
+        EUR: Euro
+        USD: US Dollar
