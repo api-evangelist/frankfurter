@@ -17,12 +17,21 @@ deployment:
 tools_count: 4
 tools:
 - name: get_rates
-  description: ''
+  description: 'Latest or a single day''s exchange rates. The raw-rate companion to `convert`. With `provider`,
+    one institution''s published rates: on its own base the digits are as published, with the date they
+    took effect.'
 - name: convert
-  description: ''
+  description: Convert an amount from one currency to another. Returns {amount, currency} rounded to the
+    target's minor units. Upstream rounds rates per direction; for low-value sources, flip via `get_rates`
+    for more precision. Pass `provider` to use one
 - name: list_currencies
-  description: ''
+  description: 'List all supported ISO 4217 currency codes and their full names (e.g. { ''USD'': ''United
+    States Dollar'' }).'
 - name: list_providers
-  description: ''
+  description: List the institutions whose rates Frankfurter relays, with key, rate type, frequency (daily,
+    monthly or quarterly) and coverage dates. Use a key as `provider` in `convert` or `get_rates` for
+    that institution's published rates instead of the
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
