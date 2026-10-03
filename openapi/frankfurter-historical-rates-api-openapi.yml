@@ -95,13 +95,6 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/baseIn'
-    start_date:
-      name: start_date
-      in: path
-      required: true
-      description: The start date for the period
-      schema:
-        $ref: '#/components/schemas/date'
     end_date:
       name: end_date
       in: path
@@ -122,20 +115,48 @@ components:
         minItems: 1
       explode: false
       example: USD,GBP
+    start_date:
+      name: start_date
+      in: path
+      required: true
+      description: The start date for the period
+      schema:
+        $ref: '#/components/schemas/date'
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: not found
+    PeriodRateGetResponse:
+      description: Historical rates for the period
+      content:
+        application/json:
+          schema:
+            title: RatesDuringPeriod
+            type: object
+            properties:
+              amount:
+                $ref: '#/components/schemas/amount'
+              base:
+                $ref: '#/components/schemas/base'
+              start_date:
+                $ref: '#/components/schemas/date'
+              end_date:
+                $ref: '#/components/schemas/date'
+              rates:
+                $ref: '#/components/schemas/ratesByDate'
+            required:
+            - base
+            - start_date
+            - end_date
+            - rates
   schemas:
-    amount:
-      type: number
-      description: The amount to convert
-      exclusiveMinimum: 0
-    baseIn:
-      allOf:
-      - $ref: '#/components/schemas/base'
-      default: EUR
-    date:
-      type: string
-      format: date
-      example: '2024-01-15'
-      description: Date in YYYY-MM-DD format, all dates stored in UTC.
     ratesOnDate:
       type: object
       properties:
@@ -151,6 +172,11 @@ components:
       - base
       - date
       - rates
+    date:
+      type: string
+      format: date
+      example: '2024-01-15'
+      description: Date in YYYY-MM-DD format, all dates stored in UTC.
     ratesByDate:
       type: object
       description: Mapping of date → rates object
@@ -216,37 +242,11 @@ components:
         CAD: 1.8004
         CHF: 1.6168
         CYP: 0.58231
-  responses:
-    PeriodRateGetResponse:
-      description: Historical rates for the period
-      content:
-        application/json:
-          schema:
-            title: RatesDuringPeriod
-            type: object
-            properties:
-              amount:
-                $ref: '#/components/schemas/amount'
-              base:
-                $ref: '#/components/schemas/base'
-              start_date:
-                $ref: '#/components/schemas/date'
-              end_date:
-                $ref: '#/components/schemas/date'
-              rates:
-                $ref: '#/components/schemas/ratesByDate'
-            required:
-            - base
-            - start_date
-            - end_date
-            - rates
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: not found
+    amount:
+      type: number
+      description: The amount to convert
+      exclusiveMinimum: 0
+    baseIn:
+      allOf:
+      - $ref: '#/components/schemas/base'
+      default: EUR

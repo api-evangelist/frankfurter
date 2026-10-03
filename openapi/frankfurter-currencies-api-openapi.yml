@@ -94,15 +94,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    providers:
-      name: providers
-      in: query
-      description: Comma-separated list of data providers to include
-      required: false
-      schema:
-        type: string
-        example: ECB,TCMB
   responses:
     NotFound:
       description: No data found
@@ -114,40 +105,6 @@ components:
               message:
                 type: string
   schemas:
-    Currency:
-      type: object
-      properties:
-        iso_code:
-          type: string
-          description: ISO 4217 currency code
-        iso_numeric:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 numeric code
-        name:
-          type: string
-          description: Full currency name
-        symbol:
-          type:
-          - string
-          - 'null'
-          description: Currency symbol
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Earliest available date
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Latest available date
-      required:
-      - iso_code
-      - name
     CurrencyDetail:
       type: object
       properties:
@@ -188,3 +145,46 @@ components:
       required:
       - iso_code
       - name
+    Currency:
+      type: object
+      properties:
+        iso_code:
+          type: string
+          description: ISO 4217 currency code
+        iso_numeric:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 numeric code
+        name:
+          type: string
+          description: Full currency name
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Currency symbol
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Earliest available date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Latest available date
+      required:
+      - iso_code
+      - name
+  parameters:
+    providers:
+      name: providers
+      in: query
+      description: Comma-separated list of data providers to include
+      required: false
+      schema:
+        type: string
+        example: ECB,TCMB
