@@ -108,6 +108,25 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    UnprocessableEntity:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
   schemas:
     Rate:
       type: object
@@ -150,25 +169,6 @@ components:
       - base
       - quote
       - rate
-  responses:
-    NotFound:
-      description: No data found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-    UnprocessableEntity:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
   parameters:
     expand:
       name: expand
@@ -180,23 +180,6 @@ components:
         enum:
         - providers
         example: providers
-    quotes:
-      name: quotes
-      in: query
-      description: Comma-separated list of quote currencies to include
-      required: false
-      schema:
-        type: string
-        example: USD,GBP,JPY
-    base:
-      name: base
-      in: query
-      description: 'Base currency (default: EUR)'
-      required: false
-      schema:
-        type: string
-        default: EUR
-        example: USD
     group:
       name: group
       in: query
@@ -208,6 +191,31 @@ components:
         - week
         - month
         example: month
+    providers:
+      name: providers
+      in: query
+      description: Comma-separated list of data providers to include
+      required: false
+      schema:
+        type: string
+        example: ECB,TCMB
+    base:
+      name: base
+      in: query
+      description: 'Base currency (default: EUR)'
+      required: false
+      schema:
+        type: string
+        default: EUR
+        example: USD
+    quotes:
+      name: quotes
+      in: query
+      description: Comma-separated list of quote currencies to include
+      required: false
+      schema:
+        type: string
+        example: USD,GBP,JPY
     to:
       name: to
       in: query
@@ -235,11 +243,3 @@ components:
         type: string
         format: date
         example: '2024-01-15'
-    providers:
-      name: providers
-      in: query
-      description: Comma-separated list of data providers to include
-      required: false
-      schema:
-        type: string
-        example: ECB,TCMB

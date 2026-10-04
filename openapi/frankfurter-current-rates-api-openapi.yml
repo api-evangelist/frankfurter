@@ -40,63 +40,16 @@ paths:
       operationId: getLatest
       x-operation-id-source: derived
 components:
-  parameters:
-    base:
-      name: base
-      in: query
-      description: Base currency to convert from
-      required: false
-      schema:
-        $ref: '#/components/schemas/baseIn'
-    symbols:
-      name: symbols
-      in: query
-      description: Comma-separated list of currencies to convert to
-      required: false
-      schema:
-        type: array
-        description: A list of currencies
-        items:
-          $ref: '#/components/schemas/base'
-        minItems: 1
-      explode: false
-      example: USD,GBP
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: not found
   schemas:
-    ratesOnDate:
-      type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/amount'
-        base:
-          $ref: '#/components/schemas/base'
-        date:
-          $ref: '#/components/schemas/date'
-        rates:
-          $ref: '#/components/schemas/rates'
-      required:
-      - base
-      - date
-      - rates
     date:
       type: string
       format: date
       example: '2024-01-15'
       description: Date in YYYY-MM-DD format, all dates stored in UTC.
-    baseIn:
-      allOf:
-      - $ref: '#/components/schemas/base'
-      default: EUR
+    amount:
+      type: number
+      description: The amount to convert
+      exclusiveMinimum: 0
     base:
       type: string
       enum:
@@ -132,6 +85,10 @@ components:
       - USD
       - ZAR
       description: The base currency code following ISO4217
+    baseIn:
+      allOf:
+      - $ref: '#/components/schemas/base'
+      default: EUR
     rates:
       type: object
       description: Exchange rates keyed by currency code
@@ -147,7 +104,50 @@ components:
         CAD: 1.8004
         CHF: 1.6168
         CYP: 0.58231
-    amount:
-      type: number
-      description: The amount to convert
-      exclusiveMinimum: 0
+    ratesOnDate:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/amount'
+        base:
+          $ref: '#/components/schemas/base'
+        date:
+          $ref: '#/components/schemas/date'
+        rates:
+          $ref: '#/components/schemas/rates'
+      required:
+      - base
+      - date
+      - rates
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: not found
+  parameters:
+    base:
+      name: base
+      in: query
+      description: Base currency to convert from
+      required: false
+      schema:
+        $ref: '#/components/schemas/baseIn'
+    symbols:
+      name: symbols
+      in: query
+      description: Comma-separated list of currencies to convert to
+      required: false
+      schema:
+        type: array
+        description: A list of currencies
+        items:
+          $ref: '#/components/schemas/base'
+        minItems: 1
+      explode: false
+      example: USD,GBP

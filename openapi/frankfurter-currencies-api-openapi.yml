@@ -94,16 +94,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: No data found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
   schemas:
     CurrencyDetail:
       type: object
@@ -188,3 +178,13 @@ components:
       schema:
         type: string
         example: ECB,TCMB
+  responses:
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
