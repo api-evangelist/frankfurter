@@ -53,6 +53,7 @@ tags:
   - MIT
   - Self-Hosted
   - Public APIs
+  - Exchange Rates
 tags_raw:
   - Currency Exchange
   - Foreign Exchange
@@ -62,6 +63,7 @@ tags_raw:
   - Self-Hosted
   - Public APIs
   - Open-Source
+  - Exchange Rates
 apis:
 - aid: frankfurter:frankfurter-currencies-api
   name: Frankfurter Currencies API
