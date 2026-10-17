@@ -95,6 +95,40 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Currency:
+      type: object
+      properties:
+        iso_code:
+          type: string
+          description: ISO 4217 currency code
+        iso_numeric:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 numeric code
+        name:
+          type: string
+          description: Full currency name
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Currency symbol
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Earliest available date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Latest available date
+      required:
+      - iso_code
+      - name
     CurrencyDetail:
       type: object
       properties:
@@ -132,40 +166,6 @@ components:
               type: string
               format: uri
           description: Peg metadata, present only for pegged currencies
-      required:
-      - iso_code
-      - name
-    Currency:
-      type: object
-      properties:
-        iso_code:
-          type: string
-          description: ISO 4217 currency code
-        iso_numeric:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 numeric code
-        name:
-          type: string
-          description: Full currency name
-        symbol:
-          type:
-          - string
-          - 'null'
-          description: Currency symbol
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Earliest available date
-        end_date:
-          type:
-          - string
-          - 'null'
-          format: date
-          description: Latest available date
       required:
       - iso_code
       - name

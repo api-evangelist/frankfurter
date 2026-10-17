@@ -88,30 +88,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    date:
-      type: string
-      format: date
-      example: '2024-01-15'
-      description: Date in YYYY-MM-DD format, all dates stored in UTC.
-    ratesByDate:
+    ratesOnDate:
       type: object
-      description: Mapping of date → rates object
-      propertyNames:
-        $ref: '#/components/schemas/date'
-      additionalProperties:
-        $ref: '#/components/schemas/rates'
-      minProperties: 1
-      example:
-        '1999-01-04':
-          AUD: 1.91
-        '1999-01-05':
-          AUD: 1.8944
-        '1999-01-06':
-          AUD: 1.882
-    amount:
-      type: number
-      description: The amount to convert
-      exclusiveMinimum: 0
+      properties:
+        amount:
+          $ref: '#/components/schemas/amount'
+        base:
+          $ref: '#/components/schemas/base'
+        date:
+          $ref: '#/components/schemas/date'
+        rates:
+          $ref: '#/components/schemas/rates'
+      required:
+      - base
+      - date
+      - rates
     base:
       type: string
       enum:
@@ -147,10 +138,10 @@ components:
       - USD
       - ZAR
       description: The base currency code following ISO4217
-    baseIn:
-      allOf:
-      - $ref: '#/components/schemas/base'
-      default: EUR
+    amount:
+      type: number
+      description: The amount to convert
+      exclusiveMinimum: 0
     rates:
       type: object
       description: Exchange rates keyed by currency code
@@ -166,34 +157,43 @@ components:
         CAD: 1.8004
         CHF: 1.6168
         CYP: 0.58231
-    ratesOnDate:
+    ratesByDate:
       type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/amount'
-        base:
-          $ref: '#/components/schemas/base'
-        date:
-          $ref: '#/components/schemas/date'
-        rates:
-          $ref: '#/components/schemas/rates'
-      required:
-      - base
-      - date
-      - rates
-  parameters:
-    end_date:
-      name: end_date
-      in: path
-      required: true
-      description: The end date for the period
-      schema:
+      description: Mapping of date → rates object
+      propertyNames:
         $ref: '#/components/schemas/date'
+      additionalProperties:
+        $ref: '#/components/schemas/rates'
+      minProperties: 1
+      example:
+        '1999-01-04':
+          AUD: 1.91
+        '1999-01-05':
+          AUD: 1.8944
+        '1999-01-06':
+          AUD: 1.882
+    baseIn:
+      allOf:
+      - $ref: '#/components/schemas/base'
+      default: EUR
+    date:
+      type: string
+      format: date
+      example: '2024-01-15'
+      description: Date in YYYY-MM-DD format, all dates stored in UTC.
+  parameters:
     start_date:
       name: start_date
       in: path
       required: true
       description: The start date for the period
+      schema:
+        $ref: '#/components/schemas/date'
+    end_date:
+      name: end_date
+      in: path
+      required: true
+      description: The end date for the period
       schema:
         $ref: '#/components/schemas/date'
     base:
