@@ -46,9 +46,7 @@ x-category: Currency Exchange
 x-tier: 2
 x-tier-reason: Open-source, MIT-licensed, self-hostable; reconciled against upstream OpenAPI specs and lineofflight GitHub org.
 tags:
-  - Currency Exchange
   - Foreign Exchange
-  - FX
   - Open Source
   - MIT
   - Self-Hosted
