@@ -1,32 +1,38 @@
 {
   "provider": "frankfurter",
   "sources": [
-    "_original/frankfurter-v1-openapi.yml",
-    "_original/frankfurter-v2-openapi.yml"
+    "_original/frankfurter-openapi.json"
   ],
   "outputs": [
-    "frankfurter-current-rates-api-openapi.yml",
-    "frankfurter-historical-rates-api-openapi.yml",
-    "frankfurter-metadata-api-openapi.yml",
+    "frankfurter-coverage-api-openapi.yml",
     "frankfurter-currencies-api-openapi.yml",
+    "frankfurter-currency-api-openapi.yml",
     "frankfurter-providers-api-openapi.yml",
+    "frankfurter-rate-api-openapi.yml",
     "frankfurter-rates-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
-    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "frankfurter-v1-openapi.yml: upgraded openapi 3.1.2 -> OpenAPI 3.2.0",
-    "frankfurter-v2-openapi.yml: upgraded openapi 3.1.2 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "frankfurter-openapi.json: upgraded openapi 3.1.2 -> OpenAPI 3.2.0",
+    "frankfurter-openapi.json: tagged paths GET /coverage -> Coverage",
+    "frankfurter-openapi.json: tagged paths GET /rates -> Rates",
+    "frankfurter-openapi.json: tagged paths GET /rate/{base}/{quote} -> Rate",
+    "frankfurter-openapi.json: tagged paths GET /providers/{provider} -> Providers",
+    "frankfurter-openapi.json: tagged paths GET /providers/{provider}/rates -> Providers",
+    "frankfurter-openapi.json: tagged paths GET /providers/{provider}/rate/{base}/{quote} -> Providers",
+    "frankfurter-openapi.json: tagged paths GET /currency/{code} -> Currency",
+    "frankfurter-openapi.json: tagged paths GET /currencies -> Currencies",
+    "frankfurter-openapi.json: tagged paths GET /providers -> Providers",
+    "frankfurter-openapi.json: declared missing tag: Coverage",
+    "frankfurter-openapi.json: declared missing tag: Currencies",
+    "frankfurter-openapi.json: declared missing tag: Currency",
+    "frankfurter-openapi.json: declared missing tag: Providers",
+    "frankfurter-openapi.json: declared missing tag: Rate",
+    "frankfurter-openapi.json: declared missing tag: Rates",
+    "apis.yml register: written (+3 apis, 6 total)"
   ],
-  "skipped": [
-    "frankfurter-currencies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "frankfurter-current-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "frankfurter-historical-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "frankfurter-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "frankfurter-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "frankfurter-rates-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

@@ -8,19 +8,145 @@ info:
     url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
   contact:
     url: https://github.com/lineofflight/frankfurter/issues
-  x-generated-from: upstream
-  x-last-validated: '2026-05-29'
 servers:
 - url: https://api.frankfurter.dev/v2
 tags:
 - name: Providers
-  description: Central-bank and institutional data providers
 paths:
+  /providers/{provider}:
+    get:
+      operationId: getProvider
+      summary: Get a provider
+      description: One entry from `/providers`, by key (case-insensitive).
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        description: Provider key, case-insensitive. See `/providers` for the list.
+        schema:
+          type: string
+          example: ECB
+      responses:
+        '200':
+          description: Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      tags:
+      - Providers
+  /providers/{provider}/rates:
+    get:
+      operationId: getProviderRates
+      summary: Get a provider's exchange rates
+      description: 'Returns one provider''s rates as published, unblended. Identical to `/rates?providers={provider}`: same parameters, same records, same limits. Native-base records carry the provider''s published digits; other bases are derived. Sending `providers` here returns 422. Unknown provider returns 404.'
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        description: Provider key, case-insensitive. See `/providers` for the list.
+        schema:
+          type: string
+          example: ECB
+      - $ref: '#/components/parameters/date'
+      - $ref: '#/components/parameters/from'
+      - $ref: '#/components/parameters/to'
+      - $ref: '#/components/parameters/base'
+      - $ref: '#/components/parameters/quotes'
+      - $ref: '#/components/parameters/group'
+      - $ref: '#/components/parameters/expand'
+      responses:
+        '200':
+          description: Exchange rates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rate'
+              example:
+              - date: '2024-01-15'
+                base: EUR
+                quote: EUR
+                rate: 1.0
+              - date: '2024-01-15'
+                base: EUR
+                quote: GBP
+                rate: 0.8623
+              - date: '2024-01-15'
+                base: EUR
+                quote: USD
+                rate: 1.089
+            application/x-ndjson:
+              schema:
+                type: string
+                description: NDJSON stream of Rate objects, one JSON object per line
+              example: '{ "date": "2024-01-15", "base": "EUR", "quote": "USD", "rate": 1.089 }
+
+                { "date": "2024-01-15", "base": "EUR", "quote": "GBP", "rate": 0.8623 }
+
+                '
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+      tags:
+      - Providers
+  /providers/{provider}/rate/{base}/{quote}:
+    get:
+      operationId: getProviderRate
+      summary: Get a single pair from a provider
+      description: Returns one provider's rate for a single currency pair. Identical to `/rate/{base}/{quote}?providers={provider}`. The pair may be published directly or derived from the provider's own rates for both currencies. Returns 404 when the provider has no data for either currency on the date.
+      parameters:
+      - name: provider
+        in: path
+        required: true
+        description: Provider key, case-insensitive. See `/providers` for the list.
+        schema:
+          type: string
+          example: ECB
+      - name: base
+        in: path
+        required: true
+        schema:
+          type: string
+          example: EUR
+      - name: quote
+        in: path
+        required: true
+        schema:
+          type: string
+          example: USD
+      - $ref: '#/components/parameters/date'
+      responses:
+        '200':
+          description: Exchange rate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rate'
+              example:
+                date: '2026-03-25'
+                base: EUR
+                quote: USD
+                rate: 1.1568
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+      tags:
+      - Providers
   /providers:
     get:
       operationId: getProviders
-      summary: Frankfurter Get Available Data Providers
-      description: Returns available exchange rate data providers with their base currency.
+      summary: Get available data providers
+      description: Returns available exchange rate data providers with their publication coverage. A provider start_date can predate the daily blend or the availability of a requested base or quote. Use /coverage for queryable history.
       responses:
         '200':
           description: Available providers
@@ -45,10 +171,40 @@ paths:
                 - GBP
       tags:
       - Providers
-      x-microcks-operation:
-        delay: 0
-        dispatcher: FALLBACK
 components:
+  responses:
+    UnprocessableEntity:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    ServiceUnavailable:
+      description: 'The request deadline expired before the response could be computed, or the worker process is already running its limit of concurrent live daily-range computes (any daily range served live: with providers, with expand=providers, or before the precomputed blend is ready). In the second case a Retry-After header says how many seconds to wait before retrying. Otherwise retry with a narrower request: filter with quotes, aggregate with group, or split the range into shorter requests.'
+      headers:
+        Retry-After:
+          description: Seconds to wait before retrying. Sent when the server is at its limit of concurrent daily range computes.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
   schemas:
     Provider:
       type: object
@@ -91,25 +247,160 @@ components:
           - string
           - 'null'
           format: date
-          description: Earliest available date
+          description: Earliest publication coverage date; use /coverage for queryable pairs
         end_date:
           type:
           - string
           - 'null'
           format: date
-          description: Latest available date
+          description: Latest publication coverage date; use /coverage for queryable pairs
+        publish_cadence:
+          type:
+          - string
+          - 'null'
+          enum:
+          - daily
+          - weekly
+          - monthly
+          - quarterly
+          - null
+          description: 'How often the provider publishes rates. Determines the unit of publishes_missed: a count of days, ISO weeks, calendar months, or calendar quarters. Null for historical-only providers with no scheduled cadence.'
+        frequency:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - quarterly
+          description: 'The period each observation stands for, after SDMX FREQ. A daily value is dated on the day observed. A monthly or quarterly value is dated on the day it takes effect and stands for the period until the next one. Values coarser than daily never enter the blend: query them by provider.'
         publishes_missed:
           type:
           - integer
           - 'null'
           minimum: 0
-          description: Number of expected publishes missed since end_date. For daily providers, counts scheduled publish days strictly between end_date and today. For weekly and monthly providers, counts ISO weeks or calendar months between the latest imported bucket and the bucket whose publish window has already started. Null when the provider has no scheduled cadence or no imported data.
+          description: Number of expected publishes missed since end_date, in units of publish_cadence. For daily providers, counts scheduled publish days strictly between end_date and today. For weekly, monthly and quarterly providers, counts ISO weeks, calendar months or calendar quarters between the latest imported bucket and the bucket whose publish window has already started. Null when the provider has no scheduled cadence or no imported data.
         currencies:
           type: array
           items:
             type: string
-          description: Currency codes covered by this provider
+          description: Recognised currency codes within their valid date ranges covered by this provider
+        unknown_currencies:
+          type: array
+          items:
+            type: string
+          description: Unreviewed published codes absent from the currency registry. Available through single-provider rates but excluded from blends and the currency catalogue. Known non-currency series do not trigger this alert.
       required:
       - key
       - name
       - currencies
+    Rate:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: The date of the rate
+        base:
+          type: string
+          description: Base currency or accounting unit code
+        quote:
+          type: string
+          description: Quote currency or accounting unit code
+        rate:
+          type: number
+          description: Exchange rate value
+          exclusiveMinimum: 0
+        providers:
+          type: array
+          description: 'Per-provider rates for this pair. Present only when `expand=providers` is set. Each entry has the provider''s observation date and published rate (rebased to the row''s base). Entries with `excluded: true` did not contribute to the blended `rate` — either flagged as outliers by the consensus filter, or overridden by a currency peg. A one-day typo in a provider''s series is left out, so its entry shows the observation before it. Omitted on synthesized peg rows where no provider published the quote.'
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Provider key
+              date:
+                type: string
+                format: date
+                description: Provider observation date used for this entry
+              rate:
+                type: number
+                exclusiveMinimum: 0
+                description: Provider's rate, rebased to the row's base
+              excluded:
+                type: boolean
+                description: Present and true when this entry did not contribute to the blended rate
+            required:
+            - key
+            - date
+            - rate
+      required:
+      - date
+      - base
+      - quote
+      - rate
+  parameters:
+    date:
+      name: date
+      in: query
+      description: Specific date (YYYY-MM-DD). Cannot be combined with from/to.
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-15'
+    group:
+      name: group
+      in: query
+      description: Downsample rates by time period. Only applies to date ranges.
+      required: false
+      schema:
+        type: string
+        enum:
+        - week
+        - month
+        example: month
+    expand:
+      name: expand
+      in: query
+      description: 'Comma-separated list of optional fields to include per record. Currently supports `providers`, which adds an array of `{ key, date, rate }` objects per record showing each provider''s individual observation date and rate. Outliers excluded from the blend (and providers whose rate was overridden by a currency peg) are flagged with `excluded: true`. The field is omitted on synthesized peg rows where no provider published the quote. In CSV output, the `providers` column is encoded as `KEY:RATE` pairs joined by `|`, with a trailing `*` on excluded entries (e.g. `ECB:0.92|FED:1.50*`).'
+      required: false
+      schema:
+        type: string
+        enum:
+        - providers
+        example: providers
+    quotes:
+      name: quotes
+      in: query
+      description: Comma-separated list of quote currencies to include
+      required: false
+      schema:
+        type: string
+        example: USD,GBP,JPY
+    from:
+      name: from
+      in: query
+      description: Start of date range (YYYY-MM-DD)
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-01'
+    base:
+      name: base
+      in: query
+      description: 'Base currency (default: EUR)'
+      required: false
+      schema:
+        type: string
+        default: EUR
+        example: USD
+    to:
+      name: to
+      in: query
+      description: End of date range (YYYY-MM-DD). Defaults to today.
+      required: false
+      schema:
+        type: string
+        format: date
+        example: '2024-01-31'

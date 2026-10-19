@@ -1,0 +1,99 @@
+openapi: 3.2.0
+info:
+  title: Frankfurter Currency API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates published by central banks.
+  version: 2.1.1
+  license:
+    name: MIT
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  contact:
+    url: https://github.com/lineofflight/frankfurter/issues
+servers:
+- url: https://api.frankfurter.dev/v2
+tags:
+- name: Currency
+paths:
+  /currency/{code}:
+    get:
+      operationId: getCurrency
+      summary: Get a single currency
+      description: Returns details for a single currency, including provider information or peg metadata.
+      parameters:
+      - name: code
+        in: path
+        required: true
+        schema:
+          type: string
+          example: USD
+      responses:
+        '200':
+          description: Currency details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrencyDetail'
+              example:
+                iso_code: USD
+                iso_numeric: '840'
+                name: United States Dollar
+                symbol: $
+                providers:
+                - ECB
+                - BOC
+                - FED
+        '404':
+          $ref: '#/components/responses/NotFound'
+      tags:
+      - Currency
+components:
+  responses:
+    NotFound:
+      description: No data found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  schemas:
+    CurrencyDetail:
+      type: object
+      properties:
+        iso_code:
+          type: string
+          description: Currency or accounting unit code
+        iso_numeric:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 numeric code
+        name:
+          type: string
+          description: Full currency name
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Currency symbol
+        providers:
+          type: array
+          items:
+            type: string
+          description: Provider keys that publish this currency
+        peg:
+          type: object
+          properties:
+            base:
+              type: string
+            rate:
+              type: number
+            authority:
+              type: string
+            source:
+              type: string
+              format: uri
+          description: Peg metadata, present only for pegged currencies
+      required:
+      - iso_code
+      - name

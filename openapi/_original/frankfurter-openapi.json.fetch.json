@@ -1,0 +1,12 @@
+{
+ "url": "https://api.frankfurter.dev/v2/openapi.json",
+ "final": "https://api.frankfurter.dev/v2/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 28567,
+ "sha256": "2f3e6a4012b8461401e462237ef4f5122fd6cf71b766db948fe86fd696745fe4",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

@@ -1,0 +1,127 @@
+openapi: 3.2.0
+info:
+  title: Frankfurter Coverage API
+  description: Frankfurter is an open-source API for current and historical foreign exchange rates published by central banks.
+  version: 2.1.1
+  license:
+    name: MIT
+    url: https://github.com/lineofflight/frankfurter/blob/main/LICENSE
+  contact:
+    url: https://github.com/lineofflight/frankfurter/issues
+servers:
+- url: https://api.frankfurter.dev/v2
+tags:
+- name: Coverage
+paths:
+  /coverage:
+    get:
+      operationId: getCoverage
+      summary: Get queryable history coverage
+      description: 'Returns the first and last eligible observation dates at which /rates with the same base, quotes and providers returns at least one record. Defaults to the EUR-based daily blended feed. Supplying providers selects their history, including non-daily observations. Null bounds mean no queryable pair. Bounds are request dates, not necessarily returned record dates: a carried quote can predate the bridge required to convert its base. Interior gaps are possible. Bounds do not extend beyond stored observation dates merely because carry-forward can answer later requests. With several quotes, at least one must be available. Only base, quotes and providers are accepted. Use start_date from this endpoint for a headline describing default rate history; provider and currency publication dates are not pair coverage.'
+      parameters:
+      - $ref: '#/components/parameters/base'
+      - $ref: '#/components/parameters/quotes'
+      - $ref: '#/components/parameters/providers'
+      responses:
+        '200':
+          description: Coverage of the selected rate query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Coverage'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+      tags:
+      - Coverage
+components:
+  responses:
+    UnprocessableEntity:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    ServiceUnavailable:
+      description: 'The request deadline expired before the response could be computed, or the worker process is already running its limit of concurrent live daily-range computes (any daily range served live: with providers, with expand=providers, or before the precomputed blend is ready). In the second case a Retry-After header says how many seconds to wait before retrying. Otherwise retry with a narrower request: filter with quotes, aggregate with group, or split the range into shorter requests.'
+      headers:
+        Retry-After:
+          description: Seconds to wait before retrying. Sent when the server is at its limit of concurrent daily range computes.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  schemas:
+    Coverage:
+      type: object
+      properties:
+        base:
+          type: string
+          description: Requested base currency, EUR by default
+        quotes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Requested quotes, or null for all
+        providers:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Selected providers, or null for the default daily blend
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: First eligible observation date with a nonempty matching rates query
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Last eligible observation date with a nonempty matching rates query
+      required:
+      - base
+      - quotes
+      - providers
+      - start_date
+      - end_date
+  parameters:
+    quotes:
+      name: quotes
+      in: query
+      description: Comma-separated list of quote currencies to include
+      required: false
+      schema:
+        type: string
+        example: USD,GBP,JPY
+    providers:
+      name: providers
+      in: query
+      description: Comma-separated list of data providers to include. A single provider includes its stored non-currency series. Selecting multiple providers blends only registered currencies and accounting units.
+      required: false
+      schema:
+        type: string
+        example: ECB,TCMB
+    base:
+      name: base
+      in: query
+      description: 'Base currency (default: EUR)'
+      required: false
+      schema:
+        type: string
+        default: EUR
+        example: USD
