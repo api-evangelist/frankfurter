@@ -1,0 +1,156 @@
+{
+  "endpoint": "https://mcp.frankfurter.dev/",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "frankfurter",
+    "version": "0.5.1"
+  },
+  "result": {
+    "tools": [
+      {
+        "name": "get_rates",
+        "title": "Get exchange rates",
+        "description": "Latest or a single day's exchange rates. The raw-rate companion to `convert`. With `provider`, published rates from one or more institutions: on its own base the digits are as published, with the date they took effect.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "base": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "description": "ISO 4217 base currency. Default EUR."
+            },
+            "date": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "description": "Single day YYYY-MM-DD. Omit for the latest rates."
+            },
+            "quotes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3
+              },
+              "description": "ISO 4217 quote codes to return; omit for all."
+            },
+            "provider": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 8
+              },
+              "description": "Provider key or keys, e.g. ECB or ['ECB', 'HMRC']. Serves published rates instead of the blend; a date inside a monthly or quarterly provider's period returns the rate in force. Keys at https://frankfurter.dev/providers/."
+            },
+            "providers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 8
+              },
+              "description": "Alias for `provider` accepting multiple provider keys."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "convert",
+        "title": "Convert currency",
+        "description": "Convert an amount from one currency to another. Returns {amount, currency} rounded to the target's minor units. Upstream rounds rates per direction; for low-value sources, flip via `get_rates` for more precision. Pass `provider` to use one institution's published rate, e.g. UST for a U.S. Treasury reporting rate.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "amount": {
+              "type": "number",
+              "description": "Amount in the source currency. Normalize localized input first: '100,50' -> 100.5; German '1.000,50' -> 1000.5; English '1,000.50' -> 1000.5."
+            },
+            "from": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "description": "ISO 4217 source currency."
+            },
+            "to": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "description": "ISO 4217 target currency."
+            },
+            "date": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "description": "Date YYYY-MM-DD for a past rate; omit for latest."
+            },
+            "provider": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 8,
+              "description": "Provider key, e.g. ECB for European Central Bank or UST for U.S. Treasury reporting rates. Serves that institution's published rates instead of the blend; a date inside a monthly or quarterly provider's period returns the rate in force. Keys at https://frankfurter.dev/providers/."
+            }
+          },
+          "required": [
+            "amount",
+            "from",
+            "to"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "list_currencies",
+        "title": "List currencies",
+        "description": "List all supported ISO 4217 currency codes and their full names (e.g. { 'USD': 'United States Dollar' }).",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "list_providers",
+        "title": "List providers",
+        "description": "List the institutions whose rates Frankfurter relays, with key, rate type, frequency (daily, monthly or quarterly) and coverage dates. Use a key as `provider` in `convert` or `get_rates` for that institution's published rates instead of the blend.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": true
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      }
+    ]
+  }
+}
