@@ -404,3 +404,9 @@ components:
         type: string
         format: date
         example: '2024-01-31'
+x-provenance:
+  method: harvested
+  publisher: Frankfurter
+  source: https://api.frankfurter.dev/v2/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
